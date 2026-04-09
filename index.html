@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NutriCalc</title>
+<style>
+  /* System font fallback — works fully offline */
+  @font-face {
+    font-family: 'DM Serif Display';
+    src: local('Georgia'), local('Times New Roman');
+    font-style: normal;
+  }
+</style>
+<style>
+:root {
+  --bg:          #f2f0ea;
+  --card:        #ffffff;
+  --teal:        #1a6b6b;
+  --teal-light:  #e6f3f3;
+  --teal-mid:    #2a8a8a;
+  --gold:        #b8891e;
+  --gold-light:  #fdf5e4;
+  --text:        #1c2526;
+  --muted:       #7a8c8c;
+  --border:      #dde8e8;
+  --red:         #b83232;
+  --green:       #1a6b4a;
+  --purple:      #6437a0;
+  --purple-light:#f0ebfb;
+  --blue:        #2255aa;
+  --blue-light:  #eef2ff;
+}
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+background: var(–bg);
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+color: var(–text);
+font-size: 15px;
+-webkit-text-size-adjust: 100%;
+}
+
+.app {
+max-width: 560px;
+margin: 0 auto;
+padding: 0.6rem 0.7rem 2rem;
+}
+
+/* ── Header ── */
+.app-header {
+display: flex;
+align-items: baseline;
+gap: 0.5rem;
+padding: 0.35rem 0 0.6rem;
+}
+.app-header h1 {
+font-family: ‘DM Serif Display’, Georgia, ‘Times New Roman’, serif;
+font-size: 1.45rem;
+color: var(–teal);
+letter-spacing: -0.02em;
+}
+.app-header h1 em { font-style: italic; color: var(–gold); }
+.app-header .sub { font-size: 0.68rem; color: var(–muted); font-weight: 500; }
+
+/* ── Card ── */
+.card {
+background: var(–card);
+border-radius: 14px;
+padding: 0.85rem 0.9rem;
+margin-bottom: 0.6rem;
+border: 1px solid var(–border);
+box-shadow: 0 1px 8px rgba(26,107,107,0.05);
+}
+
+.card-head {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 0.65rem;
+padding-bottom: 0.45rem;
+border-bottom: 1.5px solid var(–teal-light);
+}
+.card-head-title {
+font-family: ‘DM Serif Display’, Georgia, ‘Times New Roman’, serif;
+font-size: 0.92rem;
+color: var(–teal);
+display: flex;
+align-items: center;
+gap: 0.3rem;
+}
+.settings-btn {
+font-size: 0.68rem;
+font-weight: 600;
+color: var(–muted);
+background: none;
+border: none;
+cursor: pointer;
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+padding: 0;
+}
+.settings-btn:hover { color: var(–teal); }
+
+/* ── Grid layouts ── */
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+.row4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+
+/* ── Fields / Inputs ── */
+.field { display: flex; flex-direction: column; gap: 0.2rem; }
+.flabel {
+font-size: 0.63rem;
+font-weight: 700;
+color: var(–muted);
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+.inp-wrap {
+display: flex;
+align-items: center;
+border: 1.5px solid var(–border);
+border-radius: 8px;
+background: #fafaf8;
+overflow: hidden;
+transition: border-color 0.18s, box-shadow 0.18s;
+}
+.inp-wrap:focus-within {
+border-color: var(–teal-mid);
+box-shadow: 0 0 0 2px rgba(26,107,107,0.12);
+background: #fff;
+}
+.inp-wrap.solve-target {
+border-color: var(–purple);
+background: var(–purple-light);
+}
+.inp-wrap input {
+flex: 1;
+border: none;
+background: transparent;
+padding: 0.48rem 0.5rem;
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+font-size: 0.9rem;
+color: var(–text);
+min-width: 0;
+outline: none;
+-webkit-appearance: none;
+}
+.inp-wrap.solve-target input { color: var(–purple); font-weight: 600; }
+.inp-sfx {
+padding: 0 0.45rem;
+font-size: 0.62rem;
+font-weight: 600;
+color: var(–muted);
+background: #eeede9;
+align-self: stretch;
+display: flex;
+align-items: center;
+border-left: 1px solid var(–border);
+white-space: nowrap;
+}
+.inp-wrap.solve-target .inp-sfx { background: #ddd0f5; color: var(–purple); border-color: #bba8e0; }
+.solve-tag {
+font-size: 0.6rem;
+color: var(–purple);
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.04em;
+text-align: center;
+min-height: 0.8rem;
+margin-top: 0.1rem;
+}
+
+/* ── Settings panel ── */
+.settings-panel {
+background: #f7f6f2;
+border: 1px solid var(–border);
+border-radius: 9px;
+padding: 0.65rem 0.7rem 0.5rem;
+margin-bottom: 0.5rem;
+}
+.pop-toggle {
+display: flex;
+gap: 0.35rem;
+margin-bottom: 0.15rem;
+}
+.pop-btn {
+flex: 1;
+padding: 0.38rem 0.5rem;
+border: 1.5px solid var(–border);
+border-radius: 8px;
+background: #fafaf8;
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+font-size: 0.7rem;
+font-weight: 500;
+color: var(–muted);
+cursor: pointer;
+transition: all 0.15s;
+text-align: center;
+}
+.pop-btn.active {
+background: var(–teal-light);
+border-color: var(–teal-mid);
+color: var(–teal);
+font-weight: 700;
+}
+.pop-hint {
+font-size: 0.6rem;
+color: var(–muted);
+font-style: italic;
+line-height: 1.4;
+min-height: 0.8rem;
+}
+.settings-hint {
+font-size: 0.62rem;
+color: var(–muted);
+font-style: italic;
+line-height: 1.4;
+margin-top: 0.3rem;
+}
+.nutr-actions {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-top: 0.45rem;
+padding-top: 0.4rem;
+border-top: 1px dashed var(–border);
+gap: 0.5rem;
+}
+.nutr-defaults-label {
+font-size: 0.62rem;
+color: var(–muted);
+font-style: italic;
+flex: 1;
+line-height: 1.4;
+}
+.formula-actions {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-top: 0.55rem;
+padding-top: 0.45rem;
+border-top: 1px dashed var(–border);
+gap: 0.5rem;
+}
+.formula-defaults-label {
+font-size: 0.62rem;
+color: var(–muted);
+font-style: italic;
+flex: 1;
+line-height: 1.4;
+}
+.formula-btns { display: flex; gap: 0.35rem; }
+.fml-btn {
+padding: 0.3rem 0.6rem;
+border-radius: 7px;
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+font-size: 0.68rem;
+font-weight: 700;
+cursor: pointer;
+border: 1.5px solid var(–border);
+white-space: nowrap;
+transition: all 0.15s;
+}
+.fml-reset {
+background: #f5f5f3;
+color: var(–muted);
+}
+.fml-reset:hover { background: #ebe9e4; color: var(–text); }
+.fml-setdefault {
+background: var(–gold-light);
+color: var(–gold);
+border-color: #ddc070;
+}
+.fml-setdefault:hover { background: #f5e8c0; }
+
+/* ── Divider ── */
+.section-divider {
+font-size: 0.63rem;
+font-weight: 700;
+color: var(–muted);
+text-transform: uppercase;
+letter-spacing: 0.06em;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+margin: 0.6rem 0 0.45rem;
+}
+.section-divider::before,
+.section-divider::after {
+content: ‘’;
+flex: 1;
+height: 1px;
+background: var(–border);
+}
+
+/* ── Result boxes ── */
+/* 5-column results row: BMI | IBW | ABW | Energy | Protein */
+.results-row {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 0.4rem;
+margin-bottom: 0.5rem;
+}
+
+.rbox {
+border-radius: 10px;
+padding: 0.6rem 0.35rem;
+text-align: center;
+border: 1px solid var(–border);
+}
+.rbox.c-teal   { background: var(–teal-light);  border-color: #c0dede; }
+.rbox.c-gold   { background: var(–gold-light);  border-color: #e0cc90; }
+.rbox.c-grey   { background: #f3f3f1;            border-color: #ddd; }
+.rbox.c-red    { background: #fdf0f0;            border-color: #f0c8c8; }
+.rbox.c-blue   { background: var(–blue-light);  border-color: #c0d0f0; }
+.rbox.c-purple { background: var(–purple-light);border-color: #c8b5e8; }
+
+.rbox .rl {
+font-size: 0.58rem;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.06em;
+color: var(–muted);
+margin-bottom: 0.15rem;
+line-height: 1.2;
+}
+.rbox .rv {
+font-family: ‘DM Serif Display’, Georgia, ‘Times New Roman’, serif;
+font-size: 1.3rem;
+line-height: 1;
+}
+.rbox.c-teal   .rv { color: var(–teal); }
+.rbox.c-gold   .rv { color: var(–gold); }
+.rbox.c-grey   .rv { color: #bbb; }
+.rbox.c-red    .rv { color: var(–red); }
+.rbox.c-blue   .rv { color: var(–blue); }
+.rbox.c-purple .rv { color: var(–purple); }
+
+.rbox .ru {
+font-size: 0.6rem;
+color: var(–muted);
+margin-top: 0.1rem;
+min-height: 0.75rem;
+}
+.rbox .rn {
+font-size: 0.56rem;
+color: var(–muted);
+margin-top: 0.3rem;
+font-style: italic;
+border-top: 1px solid rgba(0,0,0,0.06);
+padding-top: 0.25rem;
+line-height: 1.3;
+}
+
+/* BMI badge inside rbox */
+.bmi-badge {
+display: inline-block;
+margin-top: 0.2rem;
+padding: 0.15rem 0.4rem;
+border-radius: 20px;
+font-size: 0.56rem;
+font-weight: 700;
+}
+.bmi-badge.uw { background: #dce8fb; color: #2255aa; }
+.bmi-badge.nm { background: #daf0e6; color: var(–green); }
+.bmi-badge.ow { background: #fff0d8; color: #b05800; }
+.bmi-badge.ob { background: #fde8e8; color: var(–red); }
+
+/* ── Solved box (shows up only when a value was solved) ── */
+.solved-row {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 0.4rem;
+margin-bottom: 0.5rem;
+}
+
+/* ── Clinical note ── */
+.cnote {
+padding: 0.5rem 0.65rem;
+background: #fffbf0;
+border-left: 3px solid var(–gold);
+border-radius: 0 8px 8px 0;
+font-size: 0.72rem;
+color: #7a5810;
+line-height: 1.5;
+margin-bottom: 0.5rem;
+}
+.cnote strong { color: #9a6510; }
+
+/* ── Nutrition inputs ── */
+.nutr-block {
+background: #f8f8f6;
+border: 1px solid var(–border);
+border-radius: 9px;
+padding: 0.55rem 0.65rem;
+margin-bottom: 0.45rem;
+}
+.nutr-block-head {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+margin-bottom: 0.4rem;
+}
+.nutr-icon {
+font-size: 0.75rem;
+font-weight: 700;
+color: var(–teal);
+white-space: nowrap;
+min-width: 52px;
+}
+.nutr-inp { flex: 1; }
+.chip-row { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+.chip {
+padding: 0.2rem 0.5rem;
+border: 1.5px solid var(–border);
+border-radius: 20px;
+background: #fafafa;
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+font-size: 0.65rem;
+font-weight: 500;
+color: var(–muted);
+cursor: pointer;
+transition: all 0.15s;
+white-space: nowrap;
+}
+.chip.active {
+background: var(–teal-light);
+border-color: var(–teal-mid);
+color: var(–teal);
+font-weight: 700;
+}
+.chip.disabled {
+opacity: 0.3;
+cursor: not-allowed;
+pointer-events: none;
+}
+
+/* ── Buttons ── */
+.btn {
+width: 100%;
+padding: 0.62rem;
+border: none;
+border-radius: 9px;
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+font-size: 0.88rem;
+font-weight: 700;
+cursor: pointer;
+transition: filter 0.15s, transform 0.1s;
+margin-top: 0.45rem;
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(–teal); color: white; }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost {
+background: var(–teal-light);
+color: var(–teal);
+border: 1.5px solid var(–border);
+margin-top: 0.3rem;
+}
+
+/* ── Error ── */
+.err {
+font-size: 0.72rem;
+color: var(–red);
+margin-top: 0.3rem;
+display: none;
+}
+
+.hidden { display: none !important; }
+
+@media (max-width: 400px) {
+.results-row { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+
+  <div class="app-header">
+    <h1>Nutri<em>Calc</em></h1>
+    <span class="sub">ICU Nutrition Calculator</span>
+  </div>
+
+  <!-- ══════ MAIN CARD ══════ -->
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-head-title">📋 Patient Data</div>
+      <button class="settings-btn" onclick="toggleSettings(this)" id="settings-toggle">⚙ Settings ▸</button>
+    </div>
+
+```
+<!-- Settings panel (hidden by default) -->
+<div class="settings-panel hidden" id="settings-panel">
+
+  <!-- BMI population toggle -->
+  <div class="flabel" style="margin-bottom:0.3rem">BMI Cut-offs</div>
+  <div class="pop-toggle" id="pop-toggle">
+    <button class="pop-btn active" id="pop-hk00" onclick="setPopulation('hk00', this)">🇭🇰 HK/Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2000</span></button>
+    <button class="pop-btn"        id="pop-hk04" onclick="setPopulation('hk04', this)">🌏 Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2004</span></button>
+    <button class="pop-btn"        id="pop-who"  onclick="setPopulation('who',  this)">🌍 Global<br><span style="font-weight:400;font-size:0.6rem">WHO</span></button>
+  </div>
+  <div class="pop-hint" id="pop-hint"></div>
+
+  <div class="row3" style="margin-top:0.55rem">
+    <div class="field">
+      <div class="flabel">IBW BMI</div>
+      <div class="inp-wrap">
+        <input type="number" id="ibw-bmi" min="15" max="30" step="0.1">
+        <span class="inp-sfx">kg/m²</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="flabel">ABW threshold</div>
+      <div class="inp-wrap">
+        <input type="number" id="abw-thresh" min="20" max="35" step="0.5">
+        <span class="inp-sfx">BMI</span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="flabel">ABW factor</div>
+      <div class="inp-wrap">
+        <input type="number" id="abw-factor" min="0.1" max="0.9" step="0.05">
+        <span class="inp-sfx">×</span>
+      </div>
+    </div>
+  </div>
+  <p class="settings-hint">IBW = IBW BMI × h² &nbsp;·&nbsp; ABW triggered when actual BMI ≥ threshold &nbsp;·&nbsp; ABW = IBW + factor × (AW − IBW)</p>
+
+  <!-- Formula default actions -->
+  <div class="formula-actions">
+    <div class="formula-defaults-label" id="formula-defaults-label"></div>
+    <div class="formula-btns">
+      <button class="fml-btn fml-reset"    onclick="resetFormulaDefaults()">↩ Reset</button>
+      <button class="fml-btn fml-setdefault" onclick="setFormulaDefaults()">★ Set as Default</button>
+    </div>
+  </div>
+</div>
+
+<!-- Weight / Height / BMI solver -->
+<div class="row3">
+  <div class="field">
+    <div class="flabel">Weight (kg)</div>
+    <div class="inp-wrap" id="iw-w">
+      <input type="number" id="sol-w" placeholder="kg" min="20" max="300" step="0.1" oninput="solverHint()">
+      <span class="inp-sfx">kg</span>
+    </div>
+    <div class="solve-tag" id="tag-w"></div>
+  </div>
+  <div class="field">
+    <div class="flabel">Height (cm)</div>
+    <div class="inp-wrap" id="iw-h">
+      <input type="number" id="sol-h" placeholder="cm" min="100" max="250" step="0.1" oninput="solverHint()">
+      <span class="inp-sfx">cm</span>
+    </div>
+    <div class="solve-tag" id="tag-h"></div>
+  </div>
+  <div class="field">
+    <div class="flabel">BMI</div>
+    <div class="inp-wrap" id="iw-b">
+      <input type="number" id="sol-b" placeholder="optional" min="10" max="70" step="0.1" oninput="solverHint()">
+      <span class="inp-sfx">kg/m²</span>
+    </div>
+    <div class="solve-tag" id="tag-b"></div>
+  </div>
+</div>
+
+<!-- ── RESULTS (shown after calculate) ── -->
+<div class="hidden" id="results-wrap">
+
+  <!-- 5-col results row: BMI | IBW | ABW | Energy | Protein -->
+  <div class="results-row" id="results-row">
+    <!-- BMI -->
+    <div class="rbox c-teal">
+      <div class="rl">BMI</div>
+      <div class="rv" id="res-bmi">—</div>
+      <div class="ru">kg/m²</div>
+      <div><span class="bmi-badge" id="res-bmi-badge"></span></div>
+    </div>
+    <!-- IBW -->
+    <div class="rbox c-teal">
+      <div class="rl">IBW</div>
+      <div class="rv" id="res-ibw">—</div>
+      <div class="ru">kg</div>
+      <div class="rn" id="res-ibw-note"></div>
+    </div>
+    <!-- ABW -->
+    <div class="rbox c-grey" id="res-abw-box">
+      <div class="rl">ABW</div>
+      <div class="rv" id="res-abw">—</div>
+      <div class="ru" id="res-abw-unit"></div>
+      <div class="rn" id="res-abw-note"></div>
+    </div>
+    <!-- Energy -->
+    <div class="rbox c-red">
+      <div class="rl">Energy</div>
+      <div class="rv" id="res-energy">—</div>
+      <div class="ru">kcal/d</div>
+      <div class="rn" id="res-energy-note"></div>
+    </div>
+    <!-- Protein -->
+    <div class="rbox c-blue">
+      <div class="rl">Protein</div>
+      <div class="rv" id="res-prot">—</div>
+      <div class="ru">g/d</div>
+      <div class="rn" id="res-prot-note"></div>
+    </div>
+  </div>
+
+  <!-- Solved value (only when one field was calculated) -->
+  <div class="hidden" id="solved-row">
+    <div class="rbox c-purple" style="margin-bottom:0.5rem">
+      <div class="rl" id="solved-label">—</div>
+      <div class="rv" id="solved-val">—</div>
+      <div class="ru" id="solved-unit">—</div>
+    </div>
+  </div>
+
+  <!-- Clinical note -->
+  <div class="cnote" id="res-note"></div>
+
+</div><!-- /results-wrap -->
+
+<!-- ── Nutrition inputs (always visible) ── -->
+<div class="section-divider">Nutrition Requirements</div>
+
+<!-- Energy -->
+<div class="nutr-block">
+  <div class="nutr-block-head">
+    <div class="nutr-icon">⚡ Energy</div>
+    <div class="nutr-inp">
+      <div class="inp-wrap">
+        <input type="number" id="nutr-kcal" min="5" max="60" step="0.5" oninput="calcNutrition()">
+        <span class="inp-sfx">kcal/kg</span>
+      </div>
+    </div>
+  </div>
+  <div class="chip-row" id="energy-chips">
+    <button class="chip"        data-bw="actual"   onclick="setChip('energy',this)">Actual BW</button>
+    <button class="chip"        data-bw="ideal"    onclick="setChip('energy',this)">IBW</button>
+    <button class="chip active" data-bw="adjusted" onclick="setChip('energy',this)" id="chip-e-abw">ABW</button>
+  </div>
+</div>
+
+<!-- Protein -->
+<div class="nutr-block">
+  <div class="nutr-block-head">
+    <div class="nutr-icon">🥩 Protein</div>
+    <div class="nutr-inp">
+      <div class="inp-wrap">
+        <input type="number" id="nutr-prot" min="0.1" max="4" step="0.05" oninput="calcNutrition()">
+        <span class="inp-sfx">g/kg</span>
+      </div>
+    </div>
+  </div>
+  <div class="chip-row" id="prot-chips">
+    <button class="chip"        data-bw="actual"   onclick="setChip('prot',this)">Actual BW</button>
+    <button class="chip"        data-bw="ideal"    onclick="setChip('prot',this)">IBW</button>
+    <button class="chip active" data-bw="adjusted" onclick="setChip('prot',this)" id="chip-p-abw">ABW</button>
+  </div>
+</div>
+
+<!-- Nutrition default actions -->
+<div class="nutr-actions">
+  <div class="nutr-defaults-label" id="nutr-defaults-label"></div>
+  <div class="formula-btns">
+    <button class="fml-btn fml-reset"     onclick="resetNutrDefaults()">↩ Reset</button>
+    <button class="fml-btn fml-setdefault" onclick="setNutrDefaults()">★ Set as Default</button>
+  </div>
+</div>
+
+<div class="err" id="main-err">⚠ Enter Weight + Height (BMI optional — leave blank to solve it, or enter any two to solve the third).</div>
+<button class="btn btn-primary" onclick="calculate()">Calculate →</button>
+<button class="btn btn-ghost"   onclick="clearAll()">Clear</button>
+```
+
+  </div>
+
+</div><!-- /app -->
+
+<script>
+// ── State ──
+let lastAW = null, lastIBW = null, lastABW = null;
+let energyBW = 'adjusted', protBW = 'adjusted';
+let chipUserOverride = false; // true if user manually tapped a chip after last calculate
+
+// ── Settings toggle ──
+function toggleSettings(btn) {
+  const panel = document.getElementById('settings-panel');
+  const isNowHidden = panel.classList.toggle('hidden');
+  btn.textContent = isNowHidden ? '⚙ Settings ▸' : '⚙ Settings ▾';
+  if (!isNowHidden) {
+    // When opening, load current userDefaults into fields if blank
+    const ibwEl = document.getElementById('ibw-bmi');
+    if (!ibwEl.value) loadFormulaFields(userDefaults);
+    updateDefaultsLabel();
+  }
+}
+
+// ── Solver hint ──
+function solverHint() {
+  const ids = ['w','h','b'];
+  const vals = ids.map(id => document.getElementById('sol-' + id).value.trim());
+  const filled = vals.filter(v => v !== '').length;
+
+  ids.forEach((id, i) => {
+    const wrap = document.getElementById('iw-' + id);
+    const tag  = document.getElementById('tag-' + id);
+    wrap.classList.remove('solve-target');
+    tag.textContent = '';
+    if (filled === 2 && vals[i] === '') {
+      wrap.classList.add('solve-target');
+      tag.textContent = '← will solve';
+    }
+  });
+}
+
+// ── Clear ──
+function clearAll() {
+  // Clear inputs
+  ['sol-w','sol-h','sol-b'].forEach(id => document.getElementById(id).value = '');
+  ['w','h','b'].forEach(id => {
+    document.getElementById('iw-' + id).classList.remove('solve-target');
+    document.getElementById('tag-' + id).textContent = '';
+  });
+  // Hide results & reset display values
+  document.getElementById('results-wrap').classList.add('hidden');
+  document.getElementById('solved-row').classList.add('hidden');
+  ['res-bmi','res-ibw','res-abw','res-energy','res-prot'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '—';
+  });
+  ['res-ibw-note','res-abw-note','res-abw-unit','res-energy-note','res-prot-note'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '';
+  });
+  document.getElementById('res-abw-box').className = 'rbox c-grey';
+  document.getElementById('res-note').innerHTML = '';
+  document.getElementById('main-err').style.display = 'none';
+  lastAW = lastIBW = lastABW = null;
+  chipUserOverride = false;
+  updateABWChips(false);
+}
+
+// ── BMI category (Asian cut-offs) ──
+// Population presets
+const POP = {
+  hk00: { label: 'HK/Asian (WHO 2000)', ow: 23, ob: 25,   ibw: 22.9,
+           hint: 'Overweight ≥ 23 · Obese ≥ 25 (WHO 2000, used in HK)' },
+  hk04: { label: 'Asian (WHO 2004)',     ow: 23, ob: 27.5, ibw: 22.9,
+           hint: 'Overweight ≥ 23 · Obese ≥ 27.5 (WHO 2004 Asia-Pacific)' },
+  who:  { label: 'Global (WHO)',         ow: 25, ob: 30,   ibw: 22.9,
+           hint: 'Overweight ≥ 25 · Obese ≥ 30 (WHO global standard)' }
+};
+let currentPop = 'hk00';
+
+function setPopulation(pop, btn) {
+  currentPop = pop;
+  document.querySelectorAll('.pop-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const p = POP[pop];
+  document.getElementById('ibw-bmi').value = p.ibw;
+  // ABW threshold stays at 26 for all — do NOT overwrite
+  document.getElementById('pop-hint').textContent = p.hint;
+}
+
+// ── Formula defaults ──
+const FACTORY_DEFAULTS = { ibwBmi: 22.9, abwThresh: 26, abwFactor: 0.25 };
+let userDefaults = { ...FACTORY_DEFAULTS }; // starts same as factory
+
+function loadFormulaFields(vals) {
+  document.getElementById('ibw-bmi').value    = vals.ibwBmi;
+  document.getElementById('abw-thresh').value = vals.abwThresh;
+  document.getElementById('abw-factor').value = vals.abwFactor;
+}
+
+function updateDefaultsLabel() {
+  const isFactory =
+    userDefaults.ibwBmi    === FACTORY_DEFAULTS.ibwBmi &&
+    userDefaults.abwThresh === FACTORY_DEFAULTS.abwThresh &&
+    userDefaults.abwFactor === FACTORY_DEFAULTS.abwFactor;
+  const el = document.getElementById('formula-defaults-label');
+  if (isFactory) {
+    el.textContent = 'Using original defaults';
+  } else {
+    el.textContent = 'Custom default: IBW BMI ' + userDefaults.ibwBmi +
+      ' · Threshold ' + userDefaults.abwThresh +
+      ' · Factor ' + userDefaults.abwFactor;
+  }
+}
+
+function setFormulaDefaults() {
+  const ibw    = parseFloat(document.getElementById('ibw-bmi').value);
+  const thresh = parseFloat(document.getElementById('abw-thresh').value);
+  const factor = parseFloat(document.getElementById('abw-factor').value);
+  if (Number.isNaN(ibw) || Number.isNaN(thresh) || Number.isNaN(factor) || !ibw || !thresh || !factor) return;
+  userDefaults = { ibwBmi: ibw, abwThresh: thresh, abwFactor: factor };
+  localStorage.setItem('nutricDefaults', JSON.stringify(userDefaults));
+  updateDefaultsLabel();
+  showToast('★ Saved as default');
+}
+
+function resetFormulaDefaults() {
+  userDefaults = { ...FACTORY_DEFAULTS };
+  localStorage.removeItem('nutricDefaults');
+  loadFormulaFields(FACTORY_DEFAULTS);
+  updateDefaultsLabel();
+  showToast('↩ Reset to original defaults');
+}
+
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);' +
+      'background:#1a6b6b;color:white;padding:0.45rem 1rem;border-radius:20px;' +
+      'font-size:0.75rem;font-weight:600;z-index:9999;opacity:0;transition:opacity 0.2s;' +
+      'font-family:DM Sans,sans-serif;white-space:nowrap;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._hide);
+  t._hide = setTimeout(() => { t.style.opacity = '0'; }, 1800);
+}
+
+// ── Nutrition defaults ──
+const FACTORY_NUTR = { kcal: 25, prot: 1.5 };
+let userNutrDefaults = { ...FACTORY_NUTR };
+
+function loadNutrFields(vals) {
+  document.getElementById('nutr-kcal').value = vals.kcal;
+  document.getElementById('nutr-prot').value = vals.prot;
+}
+
+function updateNutrLabel() {
+  const isFactory =
+    userNutrDefaults.kcal === FACTORY_NUTR.kcal &&
+    userNutrDefaults.prot === FACTORY_NUTR.prot;
+  const el = document.getElementById('nutr-defaults-label');
+  if (!el) return;
+  el.textContent = isFactory
+    ? 'Using original defaults'
+    : 'Custom default: ' + userNutrDefaults.kcal + ' kcal/kg · ' + userNutrDefaults.prot + ' g/kg';
+}
+
+function setNutrDefaults() {
+  const kcal = parseFloat(document.getElementById('nutr-kcal').value);
+  const prot = parseFloat(document.getElementById('nutr-prot').value);
+  if (Number.isNaN(kcal) || Number.isNaN(prot) || kcal <= 0 || prot <= 0) return;
+  userNutrDefaults = { kcal, prot };
+  localStorage.setItem('nutricNutrDefaults', JSON.stringify(userNutrDefaults));
+  updateNutrLabel();
+  showToast('★ Nutrition defaults saved');
+}
+
+function resetNutrDefaults() {
+  userNutrDefaults = { ...FACTORY_NUTR };
+  localStorage.removeItem('nutricNutrDefaults');
+  loadNutrFields(FACTORY_NUTR);
+  updateNutrLabel();
+  calcNutrition();
+  showToast('↩ Reset to 25 kcal/kg · 1.5 g/kg');
+}
+
+// Init hint on load
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('pop-hint').textContent = POP['hk00'].hint;
+
+  // Load persisted formula defaults
+  try {
+    const saved = localStorage.getItem('nutricDefaults');
+    if (saved) userDefaults = { ...FACTORY_DEFAULTS, ...JSON.parse(saved) };
+  } catch(e) {}
+  loadFormulaFields(userDefaults);
+  updateDefaultsLabel();
+
+  // Load persisted nutrition defaults
+  try {
+    const savedNutr = localStorage.getItem('nutricNutrDefaults');
+    if (savedNutr) userNutrDefaults = { ...FACTORY_NUTR, ...JSON.parse(savedNutr) };
+  } catch(e) {}
+  loadNutrFields(userNutrDefaults);
+  updateNutrLabel();
+});
+
+function bmiCat(bmi) {
+  const p = POP[currentPop];
+  if (bmi < 18.5)  return { text: 'Underweight', cls: 'uw' };
+  if (bmi < p.ow)  return { text: 'Normal',       cls: 'nm' };
+  if (bmi < p.ob)  return { text: 'Overweight',   cls: 'ow' };
+  return               { text: 'Obese',           cls: 'ob' };
+}
+
+function cmToFtIn(cm) {
+  const totalIn = cm / 2.54, ft = Math.floor(totalIn / 12);
+  return ft + ' ft ' + (totalIn % 12).toFixed(1) + ' in';
+}
+
+// ── Resolve BW for nutrition ──
+function resolveBW(choice) {
+  if (choice === 'ideal')    return { val: lastIBW, label: 'IBW' };
+  if (choice === 'adjusted') return { val: lastABW ?? lastAW, label: lastABW ? 'ABW' : 'Actual BW' };
+  return { val: lastAW, label: 'Actual BW' };
+}
+
+// ── Chip selection ──
+function setChip(group, btn) {
+  document.querySelectorAll('#' + group + '-chips .chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  if (group === 'energy') energyBW = btn.dataset.bw;
+  else                    protBW   = btn.dataset.bw;
+  chipUserOverride = true; // user explicitly chose — respect their choice
+  if (lastAW) calcNutrition();
+}
+
+// ── Update ABW chip availability ──
+function updateABWChips(userOverride) {
+  // Called after every calculate().
+  // Auto-selects ABW if applicable, Actual BW if not —
+  // UNLESS userOverride=true (user manually tapped a chip after last calculate).
+  const groups = [
+    { chipId: 'chip-e-abw', group: 'energy', bwVar: () => energyBW, setBW: v => { energyBW = v; } },
+    { chipId: 'chip-p-abw', group: 'prot',   bwVar: () => protBW,   setBW: v => { protBW   = v; } }
+  ];
+
+  groups.forEach(({ chipId, group, bwVar, setBW }) => {
+    const abwChip = document.getElementById(chipId);
+    if (lastABW !== null) {
+      // ABW is applicable
+      abwChip.classList.remove('disabled');
+      abwChip.title = '';
+      if (!userOverride) {
+        // Auto-select ABW
+        document.querySelectorAll('#' + group + '-chips .chip').forEach(c => c.classList.remove('active'));
+        abwChip.classList.add('active');
+        setBW('adjusted');
+      }
+    } else {
+      // ABW not applicable — disable chip, fall back to Actual BW
+      abwChip.classList.add('disabled');
+      abwChip.title = 'ABW not applicable';
+      document.querySelectorAll('#' + group + '-chips .chip').forEach(c => c.classList.remove('active'));
+      document.querySelector('#' + group + '-chips [data-bw="actual"]').classList.add('active');
+      setBW('actual');
+    }
+  });
+}
+
+// ── Nutrition calculation (auto-fires after calculate) ──
+function calcNutrition() {
+  if (!lastAW) return;
+
+  const kcalPer = parseFloat(document.getElementById('nutr-kcal').value);
+  const protPer = parseFloat(document.getElementById('nutr-prot').value);
+  const eBW     = resolveBW(energyBW);
+  const pBW     = resolveBW(protBW);
+
+  if (kcalPer > 0 && eBW.val) {
+    document.getElementById('res-energy').textContent      = Math.round(kcalPer * eBW.val);
+    document.getElementById('res-energy-note').textContent = kcalPer + ' × ' + eBW.val.toFixed(1) + ' (' + eBW.label + ')';
+  } else {
+    document.getElementById('res-energy').textContent      = '—';
+    document.getElementById('res-energy-note').textContent = '';
+  }
+
+  if (protPer > 0 && pBW.val) {
+    document.getElementById('res-prot').textContent      = (protPer * pBW.val).toFixed(1);
+    document.getElementById('res-prot-note').textContent = protPer + ' × ' + pBW.val.toFixed(1) + ' (' + pBW.label + ')';
+  } else {
+    document.getElementById('res-prot').textContent      = '—';
+    document.getElementById('res-prot-note').textContent = '';
+  }
+}
+
+// ── Main calculate ──
+function calculate() {
+  const wRaw = document.getElementById('sol-w').value.trim();
+  const hRaw = document.getElementById('sol-h').value.trim();
+  const bRaw = document.getElementById('sol-b').value.trim();
+  const err  = document.getElementById('main-err');
+
+  const wVal = wRaw !== '' ? parseFloat(wRaw) : null;
+  const hVal = hRaw !== '' ? parseFloat(hRaw) : null;
+  const bVal = bRaw !== '' ? parseFloat(bRaw) : null;
+  const filled = [wVal, hVal, bVal].filter(v => v !== null).length;
+
+  if (filled < 2 || (wVal === null && hVal === null)) {
+    err.style.display = 'block';
+    err.textContent = '⚠ Enter Weight + Height (BMI optional — leave blank to solve it, or enter any two to solve the third).';
+    return;
+  }
+  if (filled === 3) {
+    err.style.display = 'block';
+    err.style.color = '#b87020';
+    err.textContent = '⚠ All three values entered — BMI will be recalculated from Weight & Height. Clear BMI to use it as the solved value.';
+  } else {
+    err.style.display = 'none';
+    err.style.color = '';
+  }
+
+  const ibwBMI    = parseFloat(document.getElementById('ibw-bmi').value)    || userDefaults.ibwBmi;
+  const abwThresh = parseFloat(document.getElementById('abw-thresh').value) || userDefaults.abwThresh;
+  const abwFactor = parseFloat(document.getElementById('abw-factor').value) || userDefaults.abwFactor;
+
+  // ── Solve missing variable ──
+  let aw, hCm, bmi;
+  let solvedLabel = null, solvedVal = null, solvedUnit = null;
+
+  if (wVal !== null && hVal !== null) {
+    aw = wVal; hCm = hVal;
+    bmi = aw / Math.pow(hCm / 100, 2);
+    if (bVal === null) {
+      solvedLabel = 'BMI — solved'; solvedVal = bmi.toFixed(1); solvedUnit = 'kg/m²';
+    }
+  } else if (wVal !== null && bVal !== null) {
+    aw = wVal; bmi = bVal;
+    hCm = Math.sqrt(aw / bmi) * 100;
+    solvedLabel = 'Height — solved'; solvedVal = hCm.toFixed(1) + ' cm'; solvedUnit = cmToFtIn(hCm);
+  } else {
+    hCm = hVal; bmi = bVal;
+    aw  = bmi * Math.pow(hCm / 100, 2);
+    solvedLabel = 'Weight — solved'; solvedVal = aw.toFixed(1); solvedUnit = 'kg';
+  }
+
+  const hM       = hCm / 100;
+  const ibw      = ibwBMI * hM * hM;
+  const useABW   = bmi >= abwThresh;
+  const abw      = ibw + abwFactor * (aw - ibw);
+  const pct      = ((aw - ibw) / ibw * 100);
+
+  // ── BMI ──
+  document.getElementById('res-bmi').textContent = bmi.toFixed(1);
+  const cat   = bmiCat(bmi);
+  const badge = document.getElementById('res-bmi-badge');
+  badge.textContent = cat.text; badge.className = 'bmi-badge ' + cat.cls;
+
+  // ── IBW ──
+  document.getElementById('res-ibw').textContent      = ibw.toFixed(1);
+  document.getElementById('res-ibw-note').textContent = ibwBMI + '×' + hM.toFixed(2) + '²';
+
+  // ── ABW ──
+  const abwBox = document.getElementById('res-abw-box');
+  if (useABW) {
+    abwBox.className = 'rbox c-gold';
+    document.getElementById('res-abw').textContent      = abw.toFixed(1);
+    document.getElementById('res-abw-unit').textContent = 'kg';
+    document.getElementById('res-abw-note').textContent = abwFactor + '×(' + aw.toFixed(1) + '−' + ibw.toFixed(1) + ')';
+  } else {
+    abwBox.className = 'rbox c-grey';
+    document.getElementById('res-abw').textContent      = 'N/A';
+    document.getElementById('res-abw-unit').textContent = '';
+    document.getElementById('res-abw-note').textContent = 'BMI<' + abwThresh;
+  }
+
+  // ── Solved box ──
+  const solvedRow = document.getElementById('solved-row');
+  if (solvedLabel) {
+    document.getElementById('solved-label').textContent = solvedLabel;
+    document.getElementById('solved-val').textContent   = solvedVal;
+    document.getElementById('solved-unit').textContent  = solvedUnit || '';
+    solvedRow.classList.remove('hidden');
+  } else {
+    solvedRow.classList.add('hidden');
+  }
+
+  // ── Clinical note ──
+  const note = document.getElementById('res-note');
+  if (useABW) {
+    note.innerHTML = '<strong>⚖ Use ABW.</strong> BMI ' + bmi.toFixed(1) + ' ≥ ' + abwThresh + '. AW is ' + Math.abs(pct).toFixed(0) + '% above IBW.';
+  } else if (aw < ibw) {
+    note.innerHTML = '<strong>📌 Use Actual BW.</strong> ' + Math.abs(pct).toFixed(0) + '% below IBW — address nutritional deficits.';
+  } else {
+    note.innerHTML = '<strong>✅ Use Actual BW.</strong> BMI ' + bmi.toFixed(1) + ' &lt; ' + abwThresh + ' — ABW not indicated.';
+  }
+
+  // ── Store state ──
+  lastAW = aw; lastIBW = ibw; lastABW = useABW ? abw : null;
+  chipUserOverride = false; // new calculation — reset to auto-select logic
+
+  // ── Update ABW chips: auto-select correct BW ──
+  updateABWChips(false);
+
+  // ── Show results ──
+  document.getElementById('results-wrap').classList.remove('hidden');
+
+  // ── Auto-calculate nutrition ──
+  // Ensure nutr fields have values (use defaults if empty)
+  if (!document.getElementById('nutr-kcal').value) document.getElementById('nutr-kcal').value = userNutrDefaults.kcal;
+  if (!document.getElementById('nutr-prot').value) document.getElementById('nutr-prot').value = userNutrDefaults.prot;
+  updateNutrLabel();
+  calcNutrition();
+}
+</script>
+
+</body>
+</html>
