@@ -1,0 +1,19 @@
+{
+  "name": "NutriCalc — ICU Nutrition Calculator",
+  "short_name": "NutriCalc",
+  "description": "ICU clinical nutrition calculator — IBW, ABW, energy and protein requirements",
+  "start_url": "/nutricale/",
+  "scope": "/nutricale/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f0ea",
+  "theme_color": "#1a6b6b",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='112' fill='%231a6b6b'/><text y='360' x='256' text-anchor='middle' font-size='320' font-family='Georgia,serif' fill='white'>N</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
