@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -39,75 +38,75 @@
   --blue-light:  #eef2ff;
 }
 
-- { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-background: var(–bg);
-font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
-color: var(–text);
-font-size: 15px;
--webkit-text-size-adjust: 100%;
+  background: var(--bg);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  font-size: 15px;
+  -webkit-text-size-adjust: 100%;
 }
 
 .app {
-max-width: 560px;
-margin: 0 auto;
-padding: 0.6rem 0.7rem 2rem;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0.6rem 0.7rem 2rem;
 }
 
 /* ── Header ── */
 .app-header {
-display: flex;
-align-items: baseline;
-gap: 0.5rem;
-padding: 0.35rem 0 0.6rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.35rem 0 0.6rem;
 }
 .app-header h1 {
-font-family: ‘DM Serif Display’, Georgia, ‘Times New Roman’, serif;
-font-size: 1.45rem;
-color: var(–teal);
-letter-spacing: -0.02em;
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.45rem;
+  color: var(--teal);
+  letter-spacing: -0.02em;
 }
-.app-header h1 em { font-style: italic; color: var(–gold); }
-.app-header .sub { font-size: 0.68rem; color: var(–muted); font-weight: 500; }
+.app-header h1 em { font-style: italic; color: var(--gold); }
+.app-header .sub { font-size: 0.68rem; color: var(--muted); font-weight: 500; }
 
 /* ── Card ── */
 .card {
-background: var(–card);
-border-radius: 14px;
-padding: 0.85rem 0.9rem;
-margin-bottom: 0.6rem;
-border: 1px solid var(–border);
-box-shadow: 0 1px 8px rgba(26,107,107,0.05);
+  background: var(--card);
+  border-radius: 14px;
+  padding: 0.85rem 0.9rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 8px rgba(26,107,107,0.05);
 }
 
 .card-head {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 0.65rem;
-padding-bottom: 0.45rem;
-border-bottom: 1.5px solid var(–teal-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1.5px solid var(--teal-light);
 }
 .card-head-title {
-font-family: ‘DM Serif Display’, Georgia, ‘Times New Roman’, serif;
-font-size: 0.92rem;
-color: var(–teal);
-display: flex;
-align-items: center;
-gap: 0.3rem;
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-size: 0.92rem;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 .settings-btn {
-font-size: 0.68rem;
-font-weight: 600;
-color: var(–muted);
-background: none;
-border: none;
-cursor: pointer;
-font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
-padding: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 0;
 }
-.settings-btn:hover { color: var(–teal); }
+.settings-btn:hover { color: var(--teal); }
 
 /* ── Grid layouts ── */
 .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
@@ -117,574 +116,568 @@ padding: 0;
 /* ── Fields / Inputs ── */
 .field { display: flex; flex-direction: column; gap: 0.2rem; }
 .flabel {
-font-size: 0.63rem;
-font-weight: 700;
-color: var(–muted);
-text-transform: uppercase;
-letter-spacing: 0.05em;
+  font-size: 0.63rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 .inp-wrap {
-display: flex;
-align-items: center;
-border: 1.5px solid var(–border);
-border-radius: 8px;
-background: #fafaf8;
-overflow: hidden;
-transition: border-color 0.18s, box-shadow 0.18s;
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: #fafaf8;
+  overflow: hidden;
+  transition: border-color 0.18s, box-shadow 0.18s;
 }
 .inp-wrap:focus-within {
-border-color: var(–teal-mid);
-box-shadow: 0 0 0 2px rgba(26,107,107,0.12);
-background: #fff;
+  border-color: var(--teal-mid);
+  box-shadow: 0 0 0 2px rgba(26,107,107,0.12);
+  background: #fff;
 }
 .inp-wrap.solve-target {
-border-color: var(–purple);
-background: var(–purple-light);
+  border-color: var(--purple);
+  background: var(--purple-light);
 }
 .inp-wrap input {
-flex: 1;
-border: none;
-background: transparent;
-padding: 0.48rem 0.5rem;
-font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
-font-size: 0.9rem;
-color: var(–text);
-min-width: 0;
-outline: none;
--webkit-appearance: none;
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.48rem 0.5rem;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  min-width: 0;
+  outline: none;
+  -webkit-appearance: none;
 }
-.inp-wrap.solve-target input { color: var(–purple); font-weight: 600; }
+.inp-wrap.solve-target input { color: var(--purple); font-weight: 600; }
 .inp-sfx {
-padding: 0 0.45rem;
-font-size: 0.62rem;
-font-weight: 600;
-color: var(–muted);
-background: #eeede9;
-align-self: stretch;
-display: flex;
-align-items: center;
-border-left: 1px solid var(–border);
-white-space: nowrap;
+  padding: 0 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: #eeede9;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--border);
+  white-space: nowrap;
 }
-.inp-wrap.solve-target .inp-sfx { background: #ddd0f5; color: var(–purple); border-color: #bba8e0; }
+.inp-wrap.solve-target .inp-sfx { background: #ddd0f5; color: var(--purple); border-color: #bba8e0; }
 .solve-tag {
-font-size: 0.6rem;
-color: var(–purple);
-font-weight: 700;
-text-transform: uppercase;
-letter-spacing: 0.04em;
-text-align: center;
-min-height: 0.8rem;
-margin-top: 0.1rem;
+  font-size: 0.6rem;
+  color: var(--purple);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+  min-height: 0.8rem;
+  margin-top: 0.1rem;
 }
 
 /* ── Settings panel ── */
 .settings-panel {
-background: #f7f6f2;
-border: 1px solid var(–border);
-border-radius: 9px;
-padding: 0.65rem 0.7rem 0.5rem;
-margin-bottom: 0.5rem;
+  background: #f7f6f2;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.65rem 0.7rem 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .pop-toggle {
-display: flex;
-gap: 0.35rem;
-margin-bottom: 0.15rem;
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 0.15rem;
 }
 .pop-btn {
-flex: 1;
-padding: 0.38rem 0.5rem;
-border: 1.5px solid var(–border);
-border-radius: 8px;
-background: #fafaf8;
-font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
-font-size: 0.7rem;
-font-weight: 500;
-color: var(–muted);
-cursor: pointer;
-transition: all 0.15s;
-text-align: center;
+  flex: 1;
+  padding: 0.38rem 0.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: #fafaf8;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
 }
 .pop-btn.active {
-background: var(–teal-light);
-border-color: var(–teal-mid);
-color: var(–teal);
-font-weight: 700;
+  background: var(--teal-light);
+  border-color: var(--teal-mid);
+  color: var(--teal);
+  font-weight: 700;
 }
 .pop-hint {
-font-size: 0.6rem;
-color: var(–muted);
-font-style: italic;
-line-height: 1.4;
-min-height: 0.8rem;
+  font-size: 0.6rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.4;
+  min-height: 0.8rem;
 }
 .settings-hint {
-font-size: 0.62rem;
-color: var(–muted);
-font-style: italic;
-line-height: 1.4;
-margin-top: 0.3rem;
+  font-size: 0.62rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.4;
+  margin-top: 0.3rem;
 }
 .nutr-actions {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-top: 0.45rem;
-padding-top: 0.4rem;
-border-top: 1px dashed var(–border);
-gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.45rem;
+  padding-top: 0.4rem;
+  border-top: 1px dashed var(--border);
+  gap: 0.5rem;
 }
 .nutr-defaults-label {
-font-size: 0.62rem;
-color: var(–muted);
-font-style: italic;
-flex: 1;
-line-height: 1.4;
+  font-size: 0.62rem;
+  color: var(--muted);
+  font-style: italic;
+  flex: 1;
+  line-height: 1.4;
 }
 .formula-actions {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-top: 0.55rem;
-padding-top: 0.45rem;
-border-top: 1px dashed var(–border);
-gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.55rem;
+  padding-top: 0.45rem;
+  border-top: 1px dashed var(--border);
+  gap: 0.5rem;
 }
 .formula-defaults-label {
-font-size: 0.62rem;
-color: var(–muted);
-font-style: italic;
-flex: 1;
-line-height: 1.4;
+  font-size: 0.62rem;
+  color: var(--muted);
+  font-style: italic;
+  flex: 1;
+  line-height: 1.4;
 }
 .formula-btns { display: flex; gap: 0.35rem; }
 .fml-btn {
-padding: 0.3rem 0.6rem;
-border-radius: 7px;
-font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
-font-size: 0.68rem;
-font-weight: 700;
-cursor: pointer;
-border: 1.5px solid var(–border);
-white-space: nowrap;
-transition: all 0.15s;
+  padding: 0.3rem 0.6rem;
+  border-radius: 7px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  white-space: nowrap;
+  transition: all 0.15s;
 }
 .fml-reset {
-background: #f5f5f3;
-color: var(–muted);
+  background: #f5f5f3;
+  color: var(--muted);
 }
-.fml-reset:hover { background: #ebe9e4; color: var(–text); }
+.fml-reset:hover { background: #ebe9e4; color: var(--text); }
 .fml-setdefault {
-background: var(–gold-light);
-color: var(–gold);
-border-color: #ddc070;
+  background: var(--gold-light);
+  color: var(--gold);
+  border-color: #ddc070;
 }
 .fml-setdefault:hover { background: #f5e8c0; }
 
 /* ── Divider ── */
 .section-divider {
-font-size: 0.63rem;
-font-weight: 700;
-color: var(–muted);
-text-transform: uppercase;
-letter-spacing: 0.06em;
-display: flex;
-align-items: center;
-gap: 0.5rem;
-margin: 0.6rem 0 0.45rem;
+  font-size: 0.63rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.6rem 0 0.45rem;
 }
 .section-divider::before,
 .section-divider::after {
-content: ‘’;
-flex: 1;
-height: 1px;
-background: var(–border);
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
 /* ── Result boxes ── */
 /* 5-column results row: BMI | IBW | ABW | Energy | Protein */
 .results-row {
-display: grid;
-grid-template-columns: repeat(5, 1fr);
-gap: 0.4rem;
-margin-bottom: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .rbox {
-border-radius: 10px;
-padding: 0.6rem 0.35rem;
-text-align: center;
-border: 1px solid var(–border);
+  border-radius: 10px;
+  padding: 0.6rem 0.35rem;
+  text-align: center;
+  border: 1px solid var(--border);
 }
-.rbox.c-teal   { background: var(–teal-light);  border-color: #c0dede; }
-.rbox.c-gold   { background: var(–gold-light);  border-color: #e0cc90; }
+.rbox.c-teal   { background: var(--teal-light);  border-color: #c0dede; }
+.rbox.c-gold   { background: var(--gold-light);  border-color: #e0cc90; }
 .rbox.c-grey   { background: #f3f3f1;            border-color: #ddd; }
 .rbox.c-red    { background: #fdf0f0;            border-color: #f0c8c8; }
-.rbox.c-blue   { background: var(–blue-light);  border-color: #c0d0f0; }
-.rbox.c-purple { background: var(–purple-light);border-color: #c8b5e8; }
+.rbox.c-blue   { background: var(--blue-light);  border-color: #c0d0f0; }
+.rbox.c-purple { background: var(--purple-light);border-color: #c8b5e8; }
 
 .rbox .rl {
-font-size: 0.58rem;
-font-weight: 700;
-text-transform: uppercase;
-letter-spacing: 0.06em;
-color: var(–muted);
-margin-bottom: 0.15rem;
-line-height: 1.2;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 0.15rem;
+  line-height: 1.2;
 }
 .rbox .rv {
-font-family: ‘DM Serif Display’, Georgia, ‘Times New Roman’, serif;
-font-size: 1.3rem;
-line-height: 1;
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-size: 1.3rem;
+  line-height: 1;
 }
-.rbox.c-teal   .rv { color: var(–teal); }
-.rbox.c-gold   .rv { color: var(–gold); }
+.rbox.c-teal   .rv { color: var(--teal); }
+.rbox.c-gold   .rv { color: var(--gold); }
 .rbox.c-grey   .rv { color: #bbb; }
-.rbox.c-red    .rv { color: var(–red); }
-.rbox.c-blue   .rv { color: var(–blue); }
-.rbox.c-purple .rv { color: var(–purple); }
+.rbox.c-red    .rv { color: var(--red); }
+.rbox.c-blue   .rv { color: var(--blue); }
+.rbox.c-purple .rv { color: var(--purple); }
 
 .rbox .ru {
-font-size: 0.6rem;
-color: var(–muted);
-margin-top: 0.1rem;
-min-height: 0.75rem;
+  font-size: 0.6rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+  min-height: 0.75rem;
 }
 .rbox .rn {
-font-size: 0.56rem;
-color: var(–muted);
-margin-top: 0.3rem;
-font-style: italic;
-border-top: 1px solid rgba(0,0,0,0.06);
-padding-top: 0.25rem;
-line-height: 1.3;
+  font-size: 0.56rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+  font-style: italic;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  padding-top: 0.25rem;
+  line-height: 1.3;
 }
 
 /* BMI badge inside rbox */
 .bmi-badge {
-display: inline-block;
-margin-top: 0.2rem;
-padding: 0.15rem 0.4rem;
-border-radius: 20px;
-font-size: 0.56rem;
-font-weight: 700;
+  display: inline-block;
+  margin-top: 0.2rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 20px;
+  font-size: 0.56rem;
+  font-weight: 700;
 }
 .bmi-badge.uw { background: #dce8fb; color: #2255aa; }
-.bmi-badge.nm { background: #daf0e6; color: var(–green); }
+.bmi-badge.nm { background: #daf0e6; color: var(--green); }
 .bmi-badge.ow { background: #fff0d8; color: #b05800; }
-.bmi-badge.ob { background: #fde8e8; color: var(–red); }
+.bmi-badge.ob { background: #fde8e8; color: var(--red); }
 
 /* ── Solved box (shows up only when a value was solved) ── */
 .solved-row {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 0.4rem;
-margin-bottom: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 /* ── Clinical note ── */
 .cnote {
-padding: 0.5rem 0.65rem;
-background: #fffbf0;
-border-left: 3px solid var(–gold);
-border-radius: 0 8px 8px 0;
-font-size: 0.72rem;
-color: #7a5810;
-line-height: 1.5;
-margin-bottom: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  background: #fffbf0;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.72rem;
+  color: #7a5810;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
 }
 .cnote strong { color: #9a6510; }
 
 /* ── Nutrition inputs ── */
 .nutr-block {
-background: #f8f8f6;
-border: 1px solid var(–border);
-border-radius: 9px;
-padding: 0.55rem 0.65rem;
-margin-bottom: 0.45rem;
+  background: #f8f8f6;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.55rem 0.65rem;
+  margin-bottom: 0.45rem;
 }
 .nutr-block-head {
-display: flex;
-align-items: center;
-gap: 0.5rem;
-margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 .nutr-icon {
-font-size: 0.75rem;
-font-weight: 700;
-color: var(–teal);
-white-space: nowrap;
-min-width: 52px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--teal);
+  white-space: nowrap;
+  min-width: 52px;
 }
 .nutr-inp { flex: 1; }
 .chip-row { display: flex; gap: 0.3rem; flex-wrap: wrap; }
 .chip {
-padding: 0.2rem 0.5rem;
-border: 1.5px solid var(–border);
-border-radius: 20px;
-background: #fafafa;
-font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
-font-size: 0.65rem;
-font-weight: 500;
-color: var(–muted);
-cursor: pointer;
-transition: all 0.15s;
-white-space: nowrap;
+  padding: 0.2rem 0.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  background: #fafafa;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
 }
 .chip.active {
-background: var(–teal-light);
-border-color: var(–teal-mid);
-color: var(–teal);
-font-weight: 700;
+  background: var(--teal-light);
+  border-color: var(--teal-mid);
+  color: var(--teal);
+  font-weight: 700;
 }
 .chip.disabled {
-opacity: 0.3;
-cursor: not-allowed;
-pointer-events: none;
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ── Buttons ── */
 .btn {
-width: 100%;
-padding: 0.62rem;
-border: none;
-border-radius: 9px;
-font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
-font-size: 0.88rem;
-font-weight: 700;
-cursor: pointer;
-transition: filter 0.15s, transform 0.1s;
-margin-top: 0.45rem;
+  width: 100%;
+  padding: 0.62rem;
+  border: none;
+  border-radius: 9px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.1s;
+  margin-top: 0.45rem;
 }
 .btn:active { transform: scale(0.98); }
-.btn-primary { background: var(–teal); color: white; }
+.btn-primary { background: var(--teal); color: white; }
 .btn-primary:hover { filter: brightness(1.08); }
 .btn-ghost {
-background: var(–teal-light);
-color: var(–teal);
-border: 1.5px solid var(–border);
-margin-top: 0.3rem;
+  background: var(--teal-light);
+  color: var(--teal);
+  border: 1.5px solid var(--border);
+  margin-top: 0.3rem;
 }
 
 /* ── Error ── */
 .err {
-font-size: 0.72rem;
-color: var(–red);
-margin-top: 0.3rem;
-display: none;
+  font-size: 0.72rem;
+  color: var(--red);
+  margin-top: 0.3rem;
+  display: none;
 }
 
 .hidden { display: none !important; }
 
 @media (max-width: 400px) {
-.results-row { grid-template-columns: repeat(3, 1fr); }
+  .results-row { grid-template-columns: repeat(3, 1fr); }
 }
 </style>
-
 </head>
 <body>
 <div class="app">
 
   <!-- Header -->
-
   <div class="app-header">
     <h1>Nutri<em>Calc</em></h1>
     <span class="sub">ICU Nutrition Calculator</span>
   </div>
 
   <!-- ══════ MAIN CARD ══════ -->
-
   <div class="card">
     <div class="card-head">
       <div class="card-head-title">📋 Patient Data</div>
       <button class="settings-btn" onclick="toggleSettings(this)" id="settings-toggle">⚙ Settings ▸</button>
     </div>
 
-```
-<!-- Settings panel (hidden by default) -->
-<div class="settings-panel hidden" id="settings-panel">
+    <!-- Settings panel (hidden by default) -->
+    <div class="settings-panel hidden" id="settings-panel">
 
-  <!-- BMI population toggle -->
-  <div class="flabel" style="margin-bottom:0.3rem">BMI Cut-offs</div>
-  <div class="pop-toggle" id="pop-toggle">
-    <button class="pop-btn active" id="pop-hk00" onclick="setPopulation('hk00', this)">🇭🇰 HK/Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2000</span></button>
-    <button class="pop-btn"        id="pop-hk04" onclick="setPopulation('hk04', this)">🌏 Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2004</span></button>
-    <button class="pop-btn"        id="pop-who"  onclick="setPopulation('who',  this)">🌍 Global<br><span style="font-weight:400;font-size:0.6rem">WHO</span></button>
-  </div>
-  <div class="pop-hint" id="pop-hint"></div>
+      <!-- BMI population toggle -->
+      <div class="flabel" style="margin-bottom:0.3rem">BMI Cut-offs</div>
+      <div class="pop-toggle" id="pop-toggle">
+        <button class="pop-btn active" id="pop-hk00" onclick="setPopulation('hk00', this)">🇭🇰 HK/Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2000</span></button>
+        <button class="pop-btn"        id="pop-hk04" onclick="setPopulation('hk04', this)">🌏 Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2004</span></button>
+        <button class="pop-btn"        id="pop-who"  onclick="setPopulation('who',  this)">🌍 Global<br><span style="font-weight:400;font-size:0.6rem">WHO</span></button>
+      </div>
+      <div class="pop-hint" id="pop-hint"></div>
 
-  <div class="row3" style="margin-top:0.55rem">
-    <div class="field">
-      <div class="flabel">IBW BMI</div>
-      <div class="inp-wrap">
-        <input type="number" id="ibw-bmi" min="15" max="30" step="0.1">
-        <span class="inp-sfx">kg/m²</span>
+      <div class="row3" style="margin-top:0.55rem">
+        <div class="field">
+          <div class="flabel">IBW BMI</div>
+          <div class="inp-wrap">
+            <input type="number" id="ibw-bmi" min="15" max="30" step="0.1">
+            <span class="inp-sfx">kg/m²</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="flabel">ABW threshold</div>
+          <div class="inp-wrap">
+            <input type="number" id="abw-thresh" min="20" max="35" step="0.5">
+            <span class="inp-sfx">BMI</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="flabel">ABW factor</div>
+          <div class="inp-wrap">
+            <input type="number" id="abw-factor" min="0.1" max="0.9" step="0.05">
+            <span class="inp-sfx">×</span>
+          </div>
+        </div>
+      </div>
+      <p class="settings-hint">IBW = IBW BMI × h² &nbsp;·&nbsp; ABW triggered when actual BMI ≥ threshold &nbsp;·&nbsp; ABW = IBW + factor × (AW − IBW)</p>
+
+      <!-- Formula default actions -->
+      <div class="formula-actions">
+        <div class="formula-defaults-label" id="formula-defaults-label"></div>
+        <div class="formula-btns">
+          <button class="fml-btn fml-reset"    onclick="resetFormulaDefaults()">↩ Reset</button>
+          <button class="fml-btn fml-setdefault" onclick="setFormulaDefaults()">★ Set as Default</button>
+        </div>
       </div>
     </div>
-    <div class="field">
-      <div class="flabel">ABW threshold</div>
-      <div class="inp-wrap">
-        <input type="number" id="abw-thresh" min="20" max="35" step="0.5">
-        <span class="inp-sfx">BMI</span>
+
+    <!-- Weight / Height / BMI solver -->
+    <div class="row3">
+      <div class="field">
+        <div class="flabel">Weight (kg)</div>
+        <div class="inp-wrap" id="iw-w">
+          <input type="number" id="sol-w" placeholder="kg" min="20" max="300" step="0.1" oninput="solverHint()">
+          <span class="inp-sfx">kg</span>
+        </div>
+        <div class="solve-tag" id="tag-w"></div>
+      </div>
+      <div class="field">
+        <div class="flabel">Height (cm)</div>
+        <div class="inp-wrap" id="iw-h">
+          <input type="number" id="sol-h" placeholder="cm" min="100" max="250" step="0.1" oninput="solverHint()">
+          <span class="inp-sfx">cm</span>
+        </div>
+        <div class="solve-tag" id="tag-h"></div>
+      </div>
+      <div class="field">
+        <div class="flabel">BMI</div>
+        <div class="inp-wrap" id="iw-b">
+          <input type="number" id="sol-b" placeholder="optional" min="10" max="70" step="0.1" oninput="solverHint()">
+          <span class="inp-sfx">kg/m²</span>
+        </div>
+        <div class="solve-tag" id="tag-b"></div>
       </div>
     </div>
-    <div class="field">
-      <div class="flabel">ABW factor</div>
-      <div class="inp-wrap">
-        <input type="number" id="abw-factor" min="0.1" max="0.9" step="0.05">
-        <span class="inp-sfx">×</span>
+
+    <!-- ── RESULTS (shown after calculate) ── -->
+    <div class="hidden" id="results-wrap">
+
+      <!-- 5-col results row: BMI | IBW | ABW | Energy | Protein -->
+      <div class="results-row" id="results-row">
+        <!-- BMI -->
+        <div class="rbox c-teal">
+          <div class="rl">BMI</div>
+          <div class="rv" id="res-bmi">—</div>
+          <div class="ru">kg/m²</div>
+          <div><span class="bmi-badge" id="res-bmi-badge"></span></div>
+        </div>
+        <!-- IBW -->
+        <div class="rbox c-teal">
+          <div class="rl">IBW</div>
+          <div class="rv" id="res-ibw">—</div>
+          <div class="ru">kg</div>
+          <div class="rn" id="res-ibw-note"></div>
+        </div>
+        <!-- ABW -->
+        <div class="rbox c-grey" id="res-abw-box">
+          <div class="rl">ABW</div>
+          <div class="rv" id="res-abw">—</div>
+          <div class="ru" id="res-abw-unit"></div>
+          <div class="rn" id="res-abw-note"></div>
+        </div>
+        <!-- Energy -->
+        <div class="rbox c-red">
+          <div class="rl">Energy</div>
+          <div class="rv" id="res-energy">—</div>
+          <div class="ru">kcal/d</div>
+          <div class="rn" id="res-energy-note"></div>
+        </div>
+        <!-- Protein -->
+        <div class="rbox c-blue">
+          <div class="rl">Protein</div>
+          <div class="rv" id="res-prot">—</div>
+          <div class="ru">g/d</div>
+          <div class="rn" id="res-prot-note"></div>
+        </div>
       </div>
-    </div>
-  </div>
-  <p class="settings-hint">IBW = IBW BMI × h² &nbsp;·&nbsp; ABW triggered when actual BMI ≥ threshold &nbsp;·&nbsp; ABW = IBW + factor × (AW − IBW)</p>
 
-  <!-- Formula default actions -->
-  <div class="formula-actions">
-    <div class="formula-defaults-label" id="formula-defaults-label"></div>
-    <div class="formula-btns">
-      <button class="fml-btn fml-reset"    onclick="resetFormulaDefaults()">↩ Reset</button>
-      <button class="fml-btn fml-setdefault" onclick="setFormulaDefaults()">★ Set as Default</button>
-    </div>
-  </div>
-</div>
+      <!-- Solved value (only when one field was calculated) -->
+      <div class="hidden" id="solved-row">
+        <div class="rbox c-purple" style="margin-bottom:0.5rem">
+          <div class="rl" id="solved-label">—</div>
+          <div class="rv" id="solved-val">—</div>
+          <div class="ru" id="solved-unit">—</div>
+        </div>
+      </div>
 
-<!-- Weight / Height / BMI solver -->
-<div class="row3">
-  <div class="field">
-    <div class="flabel">Weight (kg)</div>
-    <div class="inp-wrap" id="iw-w">
-      <input type="number" id="sol-w" placeholder="kg" min="20" max="300" step="0.1" oninput="solverHint()">
-      <span class="inp-sfx">kg</span>
-    </div>
-    <div class="solve-tag" id="tag-w"></div>
-  </div>
-  <div class="field">
-    <div class="flabel">Height (cm)</div>
-    <div class="inp-wrap" id="iw-h">
-      <input type="number" id="sol-h" placeholder="cm" min="100" max="250" step="0.1" oninput="solverHint()">
-      <span class="inp-sfx">cm</span>
-    </div>
-    <div class="solve-tag" id="tag-h"></div>
-  </div>
-  <div class="field">
-    <div class="flabel">BMI</div>
-    <div class="inp-wrap" id="iw-b">
-      <input type="number" id="sol-b" placeholder="optional" min="10" max="70" step="0.1" oninput="solverHint()">
-      <span class="inp-sfx">kg/m²</span>
-    </div>
-    <div class="solve-tag" id="tag-b"></div>
-  </div>
-</div>
+      <!-- Clinical note -->
+      <div class="cnote" id="res-note"></div>
 
-<!-- ── RESULTS (shown after calculate) ── -->
-<div class="hidden" id="results-wrap">
+    </div><!-- /results-wrap -->
 
-  <!-- 5-col results row: BMI | IBW | ABW | Energy | Protein -->
-  <div class="results-row" id="results-row">
-    <!-- BMI -->
-    <div class="rbox c-teal">
-      <div class="rl">BMI</div>
-      <div class="rv" id="res-bmi">—</div>
-      <div class="ru">kg/m²</div>
-      <div><span class="bmi-badge" id="res-bmi-badge"></span></div>
-    </div>
-    <!-- IBW -->
-    <div class="rbox c-teal">
-      <div class="rl">IBW</div>
-      <div class="rv" id="res-ibw">—</div>
-      <div class="ru">kg</div>
-      <div class="rn" id="res-ibw-note"></div>
-    </div>
-    <!-- ABW -->
-    <div class="rbox c-grey" id="res-abw-box">
-      <div class="rl">ABW</div>
-      <div class="rv" id="res-abw">—</div>
-      <div class="ru" id="res-abw-unit"></div>
-      <div class="rn" id="res-abw-note"></div>
-    </div>
+    <!-- ── Nutrition inputs (always visible) ── -->
+    <div class="section-divider">Nutrition Requirements</div>
+
     <!-- Energy -->
-    <div class="rbox c-red">
-      <div class="rl">Energy</div>
-      <div class="rv" id="res-energy">—</div>
-      <div class="ru">kcal/d</div>
-      <div class="rn" id="res-energy-note"></div>
+    <div class="nutr-block">
+      <div class="nutr-block-head">
+        <div class="nutr-icon">⚡ Energy</div>
+        <div class="nutr-inp">
+          <div class="inp-wrap">
+            <input type="number" id="nutr-kcal" min="5" max="60" step="0.5" oninput="calcNutrition()">
+            <span class="inp-sfx">kcal/kg</span>
+          </div>
+        </div>
+      </div>
+      <div class="chip-row" id="energy-chips">
+        <button class="chip"        data-bw="actual"   onclick="setChip('energy',this)">Actual BW</button>
+        <button class="chip"        data-bw="ideal"    onclick="setChip('energy',this)">IBW</button>
+        <button class="chip active" data-bw="adjusted" onclick="setChip('energy',this)" id="chip-e-abw">ABW</button>
+      </div>
     </div>
+
     <!-- Protein -->
-    <div class="rbox c-blue">
-      <div class="rl">Protein</div>
-      <div class="rv" id="res-prot">—</div>
-      <div class="ru">g/d</div>
-      <div class="rn" id="res-prot-note"></div>
-    </div>
-  </div>
-
-  <!-- Solved value (only when one field was calculated) -->
-  <div class="hidden" id="solved-row">
-    <div class="rbox c-purple" style="margin-bottom:0.5rem">
-      <div class="rl" id="solved-label">—</div>
-      <div class="rv" id="solved-val">—</div>
-      <div class="ru" id="solved-unit">—</div>
-    </div>
-  </div>
-
-  <!-- Clinical note -->
-  <div class="cnote" id="res-note"></div>
-
-</div><!-- /results-wrap -->
-
-<!-- ── Nutrition inputs (always visible) ── -->
-<div class="section-divider">Nutrition Requirements</div>
-
-<!-- Energy -->
-<div class="nutr-block">
-  <div class="nutr-block-head">
-    <div class="nutr-icon">⚡ Energy</div>
-    <div class="nutr-inp">
-      <div class="inp-wrap">
-        <input type="number" id="nutr-kcal" min="5" max="60" step="0.5" oninput="calcNutrition()">
-        <span class="inp-sfx">kcal/kg</span>
+    <div class="nutr-block">
+      <div class="nutr-block-head">
+        <div class="nutr-icon">🥩 Protein</div>
+        <div class="nutr-inp">
+          <div class="inp-wrap">
+            <input type="number" id="nutr-prot" min="0.1" max="4" step="0.05" oninput="calcNutrition()">
+            <span class="inp-sfx">g/kg</span>
+          </div>
+        </div>
+      </div>
+      <div class="chip-row" id="prot-chips">
+        <button class="chip"        data-bw="actual"   onclick="setChip('prot',this)">Actual BW</button>
+        <button class="chip"        data-bw="ideal"    onclick="setChip('prot',this)">IBW</button>
+        <button class="chip active" data-bw="adjusted" onclick="setChip('prot',this)" id="chip-p-abw">ABW</button>
       </div>
     </div>
-  </div>
-  <div class="chip-row" id="energy-chips">
-    <button class="chip"        data-bw="actual"   onclick="setChip('energy',this)">Actual BW</button>
-    <button class="chip"        data-bw="ideal"    onclick="setChip('energy',this)">IBW</button>
-    <button class="chip active" data-bw="adjusted" onclick="setChip('energy',this)" id="chip-e-abw">ABW</button>
-  </div>
-</div>
 
-<!-- Protein -->
-<div class="nutr-block">
-  <div class="nutr-block-head">
-    <div class="nutr-icon">🥩 Protein</div>
-    <div class="nutr-inp">
-      <div class="inp-wrap">
-        <input type="number" id="nutr-prot" min="0.1" max="4" step="0.05" oninput="calcNutrition()">
-        <span class="inp-sfx">g/kg</span>
+    <!-- Nutrition default actions -->
+    <div class="nutr-actions">
+      <div class="nutr-defaults-label" id="nutr-defaults-label"></div>
+      <div class="formula-btns">
+        <button class="fml-btn fml-reset"     onclick="resetNutrDefaults()">↩ Reset</button>
+        <button class="fml-btn fml-setdefault" onclick="setNutrDefaults()">★ Set as Default</button>
       </div>
     </div>
-  </div>
-  <div class="chip-row" id="prot-chips">
-    <button class="chip"        data-bw="actual"   onclick="setChip('prot',this)">Actual BW</button>
-    <button class="chip"        data-bw="ideal"    onclick="setChip('prot',this)">IBW</button>
-    <button class="chip active" data-bw="adjusted" onclick="setChip('prot',this)" id="chip-p-abw">ABW</button>
-  </div>
-</div>
 
-<!-- Nutrition default actions -->
-<div class="nutr-actions">
-  <div class="nutr-defaults-label" id="nutr-defaults-label"></div>
-  <div class="formula-btns">
-    <button class="fml-btn fml-reset"     onclick="resetNutrDefaults()">↩ Reset</button>
-    <button class="fml-btn fml-setdefault" onclick="setNutrDefaults()">★ Set as Default</button>
-  </div>
-</div>
-
-<div class="err" id="main-err">⚠ Enter Weight + Height (BMI optional — leave blank to solve it, or enter any two to solve the third).</div>
-<button class="btn btn-primary" onclick="calculate()">Calculate →</button>
-<button class="btn btn-ghost"   onclick="clearAll()">Clear</button>
-```
-
+    <div class="err" id="main-err">⚠ Enter Weight + Height (BMI optional — leave blank to solve it, or enter any two to solve the third).</div>
+    <button class="btn btn-primary" onclick="calculate()">Calculate →</button>
+    <button class="btn btn-ghost"   onclick="clearAll()">Clear</button>
   </div>
 
 </div><!-- /app -->
@@ -1104,7 +1097,6 @@ function calculate() {
   calcNutrition();
 }
 </script>
-
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -1112,6 +1104,5 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
-
 </body>
 </html>
