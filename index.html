@@ -5,6 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NutriCalc</title>
+<meta name="theme-color" content="#1a6b6b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NutriCalc">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231a6b6b'/><text y='68' x='50' text-anchor='middle' font-size='52' font-family='Georgia,serif' fill='white'>N</text></svg>">
+<link rel="manifest" href="manifest.json">
 <style>
   /* System font fallback — works fully offline */
   @font-face {
@@ -1096,6 +1102,14 @@ function calculate() {
   if (!document.getElementById('nutr-prot').value) document.getElementById('nutr-prot').value = userNutrDefaults.prot;
   updateNutrLabel();
   calcNutrition();
+}
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
 }
 </script>
 
