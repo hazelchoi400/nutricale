@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>NutriCalc</title>
 <meta name="theme-color" content="#1a6b6b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -63,12 +63,12 @@ html, body {
 }
 .app-header h1 {
   font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
-  font-size: 1.45rem;
+  font-size: 1.6rem;
   color: var(--teal);
   letter-spacing: -0.02em;
 }
 .app-header h1 em { font-style: italic; color: var(--gold); }
-.app-header .sub { font-size: 0.68rem; color: var(--muted); font-weight: 500; }
+.app-header .sub { font-size: 0.73rem; color: var(--muted); font-weight: 500; }
 
 /* ── Card ── */
 .card {
@@ -112,15 +112,23 @@ html, body {
 .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
 .row4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+.rg2  { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+.results-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
 
 /* ── Fields / Inputs ── */
 .field { display: flex; flex-direction: column; gap: 0.2rem; }
 .flabel {
-  font-size: 0.63rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
 }
 .inp-wrap {
   display: flex;
@@ -144,9 +152,9 @@ html, body {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 0.48rem 0.5rem;
+  padding: 0.6rem 0.55rem;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 0.9rem;
+  font-size: 16px; /* ≥16px prevents iOS auto-zoom on focus */
   color: var(--text);
   min-width: 0;
   outline: none;
@@ -154,8 +162,8 @@ html, body {
 }
 .inp-wrap.solve-target input { color: var(--purple); font-weight: 600; }
 .inp-sfx {
-  padding: 0 0.45rem;
-  font-size: 0.62rem;
+  padding: 0 0.55rem;
+  font-size: 0.72rem;
   font-weight: 600;
   color: var(--muted);
   background: #eeede9;
@@ -184,6 +192,21 @@ html, body {
   border-radius: 9px;
   padding: 0.65rem 0.7rem 0.5rem;
   margin-bottom: 0.5rem;
+}
+.settings-panel .flabel {
+  font-size: 0.6rem;
+}
+.settings-panel .inp-wrap input {
+  font-size: 16px;
+  padding: 0.38rem 0.4rem;
+}
+.settings-panel .inp-sfx {
+  font-size: 0.6rem;
+  padding: 0 0.35rem;
+}
+.settings-panel .pop-btn {
+  font-size: 0.62rem;
+  padding: 0.3rem 0.3rem;
 }
 .pop-toggle {
   display: flex;
@@ -301,13 +324,6 @@ html, body {
 }
 
 /* ── Result boxes ── */
-/* 5-column results row: BMI | IBW | ABW | Energy | Protein */
-.results-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0.4rem;
-  margin-bottom: 0.5rem;
-}
 
 .rbox {
   border-radius: 10px;
@@ -359,7 +375,6 @@ html, body {
   line-height: 1.3;
 }
 
-/* BMI badge inside rbox */
 .bmi-badge {
   display: inline-block;
   margin-top: 0.2rem;
@@ -373,12 +388,199 @@ html, body {
 .bmi-badge.ow { background: #fff0d8; color: #b05800; }
 .bmi-badge.ob { background: #fde8e8; color: var(--red); }
 
-/* ── Solved box (shows up only when a value was solved) ── */
-.solved-row {
+/* ── Solved box (inside res-row1 as 3rd cell when needed) ── */
+.solved-row { /* inherits rbox styles, no extra needed */ }
+
+/* ── Settings Overlay ── */
+.settings-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 100;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.settings-overlay.open { display: block; }
+
+.settings-overlay-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 0.75rem 2rem;
+}
+
+.settings-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0 0.65rem;
+  border-bottom: 1.5px solid var(--teal-light);
+  margin-bottom: 0.75rem;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+.settings-overlay-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--teal);
+}
+.settings-close-btn {
+  background: var(--teal-light);
+  border: 1.5px solid var(--teal-mid);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--teal);
+  cursor: pointer;
+}
+
+/* Settings overlay uses same card style */
+.settings-overlay .card {
+  margin-bottom: 0.65rem;
+}
+
+/* Settings overlay keypad */
+.settings-overlay .keypad {
+  position: sticky;
+  bottom: 0;
+  margin-top: 0.5rem;
+  z-index: 5;
+}
+
+/* ── Custom Keypad ── */
+.keypad {
+  margin-top: 0.6rem;
+  background: #f0efea;
+  border-radius: 12px;
+  padding: 0.55rem 0.5rem 0.5rem;
+  border: 1px solid var(--border);
+}
+.keypad-active-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+  padding: 0 0.1rem;
+}
+#keypad-field-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.keypad-val-preview {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--teal);
+  font-weight: 400;
+  min-width: 60px;
+  text-align: right;
+}
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.35rem;
+}
+.kbtn {
+  background: #ffffff;
+  border: 1px solid #dde0e0;
+  border-radius: 9px;
+  padding: 0.7rem 0.3rem;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.1;
+  transition: background 0.1s, transform 0.08s;
+  -webkit-tap-highlight-color: transparent;
+}
+.kbtn:active { background: #e0eded; transform: scale(0.95); }
+.kbtn-wide {
+  grid-column: span 2;
+}
+.kbtn-action {
+  background: #f5f0e8;
+  color: var(--gold);
+  border-color: #e8d8a8;
+}
+.kbtn-clear {
+  background: #fdf0f0;
+  color: var(--red);
+  border-color: #f0c8c8;
+  font-size: 0.85rem;
+}
+.kbtn-calc {
+  background: var(--teal);
+  color: white;
+  border-color: var(--teal-mid);
+  grid-row: span 2;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+}
+.kbtn-calc:active { background: var(--teal-mid); transform: scale(0.95); }
+
+/* Active field highlight */
+.inp-wrap.kpad-active {
+  border-color: var(--teal);
+  border-width: 2.5px;
+  box-shadow: 0 0 0 3px rgba(26,107,107,0.25);
+  background: #e8f6f6;
+}
+.inp-wrap.kpad-active input {
+  color: var(--teal);
+  font-weight: 700;
+}
+.inp-wrap.kpad-active .inp-sfx {
+  background: #c8e8e8;
+  color: var(--teal);
+  border-color: #a8d4d4;
+}
+
+/* ── Compact nutrition 2-col ── */
+.nutr-2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.4rem;
-  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+  margin-bottom: 0;
+}
+.nutr-2col .nutr-block {
+  margin-bottom: 0;
+}
+.nutr-compact-head {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.4rem;
+}
+.nutr-icon-sm {
+  font-size: 0.85rem;
+}
+.nutr-inp-sm {
+  flex: 1;
+  cursor: pointer;
+}
+.nutr-2col .inp-wrap input {
+  font-size: 16px;
+  padding: 0.38rem 0.4rem;
+}
+.nutr-2col .inp-sfx {
+  font-size: 0.62rem;
+  padding: 0 0.35rem;
+}
+.nutr-2col .chip-row .chip {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.62rem;
 }
 
 /* ── Clinical note ── */
@@ -493,78 +695,33 @@ html, body {
   <div class="card">
     <div class="card-head">
       <div class="card-head-title">📋 Patient Data</div>
-      <button class="settings-btn" onclick="toggleSettings(this)" id="settings-toggle">⚙ Settings ▸</button>
+      <button class="settings-btn" onclick="openSettings()" id="settings-toggle">⚙ Settings ▸</button>
     </div>
 
-    <!-- Settings panel (hidden by default) -->
-    <div class="settings-panel hidden" id="settings-panel">
-
-      <!-- BMI population toggle -->
-      <div class="flabel" style="margin-bottom:0.3rem">BMI Cut-offs</div>
-      <div class="pop-toggle" id="pop-toggle">
-        <button class="pop-btn active" id="pop-hk00" onclick="setPopulation('hk00', this)">🇭🇰 HK/Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2000</span></button>
-        <button class="pop-btn"        id="pop-hk04" onclick="setPopulation('hk04', this)">🌏 Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2004</span></button>
-        <button class="pop-btn"        id="pop-who"  onclick="setPopulation('who',  this)">🌍 Global<br><span style="font-weight:400;font-size:0.6rem">WHO</span></button>
-      </div>
-      <div class="pop-hint" id="pop-hint"></div>
-
-      <div class="row3" style="margin-top:0.55rem">
-        <div class="field">
-          <div class="flabel">IBW BMI</div>
-          <div class="inp-wrap">
-            <input type="number" id="ibw-bmi" min="15" max="30" step="0.1">
-            <span class="inp-sfx">kg/m²</span>
-          </div>
-        </div>
-        <div class="field">
-          <div class="flabel">ABW threshold</div>
-          <div class="inp-wrap">
-            <input type="number" id="abw-thresh" min="20" max="35" step="0.5">
-            <span class="inp-sfx">BMI</span>
-          </div>
-        </div>
-        <div class="field">
-          <div class="flabel">ABW factor</div>
-          <div class="inp-wrap">
-            <input type="number" id="abw-factor" min="0.1" max="0.9" step="0.05">
-            <span class="inp-sfx">×</span>
-          </div>
-        </div>
-      </div>
-      <p class="settings-hint">IBW = IBW BMI × h² &nbsp;·&nbsp; ABW triggered when actual BMI ≥ threshold &nbsp;·&nbsp; ABW = IBW + factor × (AW − IBW)</p>
-
-      <!-- Formula default actions -->
-      <div class="formula-actions">
-        <div class="formula-defaults-label" id="formula-defaults-label"></div>
-        <div class="formula-btns">
-          <button class="fml-btn fml-reset"    onclick="resetFormulaDefaults()">↩ Reset</button>
-          <button class="fml-btn fml-setdefault" onclick="setFormulaDefaults()">★ Set as Default</button>
-        </div>
-      </div>
-    </div>
+    <!-- Settings trigger only — content in overlay -->
 
     <!-- Weight / Height / BMI solver -->
     <div class="row3">
       <div class="field">
         <div class="flabel">Weight (kg)</div>
-        <div class="inp-wrap" id="iw-w">
-          <input type="number" id="sol-w" placeholder="kg" min="20" max="300" step="0.1" oninput="solverHint()">
+        <div class="inp-wrap" id="iw-w" onclick="setActiveField('sol-w')" style="cursor:pointer">
+          <input type="number" id="sol-w" inputmode="none" readonly placeholder="kg" min="20" max="300" step="0.1" oninput="solverHint()">
           <span class="inp-sfx">kg</span>
         </div>
         <div class="solve-tag" id="tag-w"></div>
       </div>
       <div class="field">
         <div class="flabel">Height (cm)</div>
-        <div class="inp-wrap" id="iw-h">
-          <input type="number" id="sol-h" placeholder="cm" min="100" max="250" step="0.1" oninput="solverHint()">
+        <div class="inp-wrap" id="iw-h" onclick="setActiveField('sol-h')" style="cursor:pointer">
+          <input type="number" id="sol-h" inputmode="none" readonly placeholder="cm" min="100" max="250" step="0.1" oninput="solverHint()">
           <span class="inp-sfx">cm</span>
         </div>
         <div class="solve-tag" id="tag-h"></div>
       </div>
       <div class="field">
         <div class="flabel">BMI</div>
-        <div class="inp-wrap" id="iw-b">
-          <input type="number" id="sol-b" placeholder="optional" min="10" max="70" step="0.1" oninput="solverHint()">
+        <div class="inp-wrap" id="iw-b" onclick="setActiveField('sol-b')" style="cursor:pointer">
+          <input type="number" id="sol-b" inputmode="none" readonly placeholder="opt." min="10" max="70" step="0.1" oninput="solverHint()">
           <span class="inp-sfx">kg/m²</span>
         </div>
         <div class="solve-tag" id="tag-b"></div>
@@ -575,36 +732,31 @@ html, body {
     <div class="hidden" id="results-wrap">
 
       <!-- 5-col results row: BMI | IBW | ABW | Energy | Protein -->
-      <div class="results-row" id="results-row">
-        <!-- BMI -->
+      <div class="results-row">
         <div class="rbox c-teal">
           <div class="rl">BMI</div>
           <div class="rv" id="res-bmi">—</div>
           <div class="ru">kg/m²</div>
           <div><span class="bmi-badge" id="res-bmi-badge"></span></div>
         </div>
-        <!-- IBW -->
         <div class="rbox c-teal">
           <div class="rl">IBW</div>
           <div class="rv" id="res-ibw">—</div>
           <div class="ru">kg</div>
           <div class="rn" id="res-ibw-note"></div>
         </div>
-        <!-- ABW -->
         <div class="rbox c-grey" id="res-abw-box">
           <div class="rl">ABW</div>
           <div class="rv" id="res-abw">—</div>
           <div class="ru" id="res-abw-unit"></div>
           <div class="rn" id="res-abw-note"></div>
         </div>
-        <!-- Energy -->
         <div class="rbox c-red">
           <div class="rl">Energy</div>
           <div class="rv" id="res-energy">—</div>
           <div class="ru">kcal/d</div>
           <div class="rn" id="res-energy-note"></div>
         </div>
-        <!-- Protein -->
         <div class="rbox c-blue">
           <div class="rl">Protein</div>
           <div class="rv" id="res-prot">—</div>
@@ -613,7 +765,7 @@ html, body {
         </div>
       </div>
 
-      <!-- Solved value (only when one field was calculated) -->
+      <!-- Solved box: only when height or weight was solved -->
       <div class="hidden" id="solved-row">
         <div class="rbox c-purple" style="margin-bottom:0.5rem">
           <div class="rl" id="solved-label">—</div>
@@ -627,42 +779,39 @@ html, body {
 
     </div><!-- /results-wrap -->
 
-    <!-- ── Nutrition inputs (always visible) ── -->
+    <!-- ── Nutrition inputs (2-col compact) ── -->
     <div class="section-divider">Nutrition Requirements</div>
 
-    <!-- Energy -->
-    <div class="nutr-block">
-      <div class="nutr-block-head">
-        <div class="nutr-icon">⚡ Energy</div>
-        <div class="nutr-inp">
-          <div class="inp-wrap">
-            <input type="number" id="nutr-kcal" min="5" max="60" step="0.5" oninput="calcNutrition()">
+    <div class="nutr-2col">
+      <!-- Energy -->
+      <div class="nutr-block">
+        <div class="nutr-compact-head">
+          <span class="nutr-icon-sm">⚡</span>
+          <div class="inp-wrap nutr-inp-sm" onclick="setActiveField('nutr-kcal')" style="cursor:pointer">
+            <input type="number" id="nutr-kcal" inputmode="none" readonly min="5" max="60" step="0.5" oninput="calcNutrition()">
             <span class="inp-sfx">kcal/kg</span>
           </div>
         </div>
+        <div class="chip-row" id="energy-chips">
+          <button class="chip" data-bw="actual"   onclick="setChip('energy',this)">AW</button>
+          <button class="chip" data-bw="ideal"    onclick="setChip('energy',this)">IBW</button>
+          <button class="chip active" data-bw="adjusted" onclick="setChip('energy',this)" id="chip-e-abw">ABW</button>
+        </div>
       </div>
-      <div class="chip-row" id="energy-chips">
-        <button class="chip"        data-bw="actual"   onclick="setChip('energy',this)">Actual BW</button>
-        <button class="chip"        data-bw="ideal"    onclick="setChip('energy',this)">IBW</button>
-        <button class="chip active" data-bw="adjusted" onclick="setChip('energy',this)" id="chip-e-abw">ABW</button>
-      </div>
-    </div>
-
-    <!-- Protein -->
-    <div class="nutr-block">
-      <div class="nutr-block-head">
-        <div class="nutr-icon">🥩 Protein</div>
-        <div class="nutr-inp">
-          <div class="inp-wrap">
-            <input type="number" id="nutr-prot" min="0.1" max="4" step="0.05" oninput="calcNutrition()">
+      <!-- Protein -->
+      <div class="nutr-block">
+        <div class="nutr-compact-head">
+          <span class="nutr-icon-sm">🥩</span>
+          <div class="inp-wrap nutr-inp-sm" onclick="setActiveField('nutr-prot')" style="cursor:pointer">
+            <input type="number" id="nutr-prot" inputmode="none" readonly min="0.1" max="4" step="0.05" oninput="calcNutrition()">
             <span class="inp-sfx">g/kg</span>
           </div>
         </div>
-      </div>
-      <div class="chip-row" id="prot-chips">
-        <button class="chip"        data-bw="actual"   onclick="setChip('prot',this)">Actual BW</button>
-        <button class="chip"        data-bw="ideal"    onclick="setChip('prot',this)">IBW</button>
-        <button class="chip active" data-bw="adjusted" onclick="setChip('prot',this)" id="chip-p-abw">ABW</button>
+        <div class="chip-row" id="prot-chips">
+          <button class="chip" data-bw="actual"   onclick="setChip('prot',this)">AW</button>
+          <button class="chip" data-bw="ideal"    onclick="setChip('prot',this)">IBW</button>
+          <button class="chip active" data-bw="adjusted" onclick="setChip('prot',this)" id="chip-p-abw">ABW</button>
+        </div>
       </div>
     </div>
 
@@ -676,30 +825,172 @@ html, body {
     </div>
 
     <div class="err" id="main-err">⚠ Enter Weight + Height (BMI optional — leave blank to solve it, or enter any two to solve the third).</div>
-    <button class="btn btn-primary" onclick="calculate()">Calculate →</button>
-    <button class="btn btn-ghost"   onclick="clearAll()">Clear</button>
+
+    <!-- ── Custom Keypad ── -->
+    <div class="keypad" id="keypad">
+      <div class="keypad-active-label">
+        <span id="keypad-field-label">Tap a field above to enter</span>
+        <span class="keypad-val-preview" id="keypad-preview"></span>
+      </div>
+      <div class="keypad-grid">
+        <button class="kbtn" onclick="kpad('7')">7</button>
+        <button class="kbtn" onclick="kpad('8')">8</button>
+        <button class="kbtn" onclick="kpad('9')">9</button>
+        <button class="kbtn kbtn-action" onclick="kpad('del')">⌫</button>
+
+        <button class="kbtn" onclick="kpad('4')">4</button>
+        <button class="kbtn" onclick="kpad('5')">5</button>
+        <button class="kbtn" onclick="kpad('6')">6</button>
+        <button class="kbtn kbtn-clear" onclick="clearAll()">CLR</button>
+
+        <button class="kbtn" onclick="kpad('1')">1</button>
+        <button class="kbtn" onclick="kpad('2')">2</button>
+        <button class="kbtn" onclick="kpad('3')">3</button>
+        <button class="kbtn kbtn-calc" onclick="calculate()">GO<br><span style="font-size:0.6rem;font-weight:400">Calc</span></button>
+
+        <button class="kbtn kbtn-wide" onclick="kpad('0')">0</button>
+        <button class="kbtn" onclick="kpad('.')">.</button>
+        <!-- calc spans 2 rows via CSS -->
+      </div>
+    </div>
   </div>
 
 </div><!-- /app -->
 
+<footer style="max-width:560px;margin:0 auto;padding:0.75rem 0.75rem 1.5rem;text-align:center;">
+  <p style="font-size:0.6rem;color:#aab8b8;line-height:1.6;">
+    Clinical support tool only. Does not replace professional judgement. Default values are provided as a starting point only — they do not represent a universal clinical standard and may not suit all patients. Settings can be adjusted as needed. Users are responsible for interpreting results and confirming all settings are appropriate for each patient, in the context of individual clinical assessment and local institutional practice.
+    <br><br>
+    © 2026 Hazel Choi. All rights reserved.
+  </p>
+</footer>
+
 <script>
+// ── Keypad state ──
+let activeField = null;
+const FIELD_LABELS = {
+  'sol-w':      'Weight (kg)',
+  'sol-h':      'Height (cm)',
+  'sol-b':      'BMI',
+  'nutr-kcal':  'Energy (kcal/kg)',
+  'nutr-prot':  'Protein (g/kg)',
+  'ibw-bmi':    'IBW BMI',
+  'abw-thresh': 'ABW BMI ≥',
+  'abw-factor': 'ABW Factor'
+};
+
+
+
+function kpad(key) {
+  if (!activeField) return;
+  const el = document.getElementById(activeField);
+  if (!el) return;
+
+  let val = el.value;
+  if (key === 'del') {
+    val = val.slice(0, -1);
+  } else if (key === '.') {
+    if (!val.includes('.')) val += '.';
+  } else {
+    // Prevent double leading zero
+    if (val === '0' && key === '0') return;
+    val += key;
+  }
+  el.value = val;
+  document.getElementById('keypad-preview').textContent = val || '';
+
+  // Trigger appropriate handler
+  if (activeField === 'sol-w' || activeField === 'sol-h' || activeField === 'sol-b') {
+    solverHint();
+  } else if (activeField === 'nutr-kcal' || activeField === 'nutr-prot') {
+    calcNutrition();
+  }
+}
+
 // ── State ──
 let lastAW = null, lastIBW = null, lastABW = null;
 let energyBW = 'adjusted', protBW = 'adjusted';
 let chipUserOverride = false; // true if user manually tapped a chip after last calculate
 
-// ── Settings toggle ──
-function toggleSettings(btn) {
-  const panel = document.getElementById('settings-panel');
-  const isNowHidden = panel.classList.toggle('hidden');
-  btn.textContent = isNowHidden ? '⚙ Settings ▸' : '⚙ Settings ▾';
-  if (!isNowHidden) {
-    // When opening, load current userDefaults into fields if blank
-    const ibwEl = document.getElementById('ibw-bmi');
-    if (!ibwEl.value) loadFormulaFields(userDefaults);
-    updateDefaultsLabel();
+// ── Settings overlay ──
+let settingsActiveField = null;
+
+function openSettings() {
+  document.getElementById('settings-overlay').classList.add('open');
+  document.getElementById('settings-toggle').textContent = '⚙ Settings ▾';
+  // Reset settings keypad
+  settingsActiveField = null;
+  document.getElementById('settings-keypad-label').textContent = 'Tap a value above to edit';
+  document.getElementById('settings-keypad-preview').textContent = '';
+}
+
+function closeSettings() {
+  document.getElementById('settings-overlay').classList.remove('open');
+  document.getElementById('settings-toggle').textContent = '⚙ Settings ▸';
+  if (settingsActiveField) {
+    const el = document.getElementById(settingsActiveField);
+    if (el) el.parentElement.classList.remove('kpad-active');
+    settingsActiveField = null;
   }
 }
+
+function setActiveField(fieldId) {
+  // Works for both main keypad and settings keypad
+  const isSettings = ['ibw-bmi','abw-thresh','abw-factor'].includes(fieldId);
+  if (isSettings) {
+    if (settingsActiveField) {
+      const prev = document.getElementById(settingsActiveField);
+      if (prev) prev.parentElement.classList.remove('kpad-active');
+    }
+    settingsActiveField = fieldId;
+    const el = document.getElementById(fieldId);
+    if (el) {
+      el.parentElement.classList.add('kpad-active');
+      document.getElementById('settings-keypad-label').textContent = FIELD_LABELS[fieldId] || fieldId;
+      document.getElementById('settings-keypad-preview').textContent = el.value || '';
+    }
+    return;
+  }
+  // Main keypad fields
+  if (activeField) {
+    const prev = document.getElementById(activeField);
+    if (prev) prev.parentElement.classList.remove('kpad-active');
+  }
+  activeField = fieldId;
+  const el = document.getElementById(fieldId);
+  if (el) {
+    el.parentElement.classList.add('kpad-active');
+    document.getElementById('keypad-field-label').textContent = FIELD_LABELS[fieldId] || fieldId;
+    document.getElementById('keypad-preview').textContent = el.value || '';
+  }
+}
+
+function kpadSettings(key) {
+  if (!settingsActiveField) return;
+  const el = document.getElementById(settingsActiveField);
+  if (!el) return;
+  let val = el.value;
+  if (key === 'del') {
+    val = val.slice(0, -1);
+  } else if (key === '.') {
+    if (!val.includes('.')) val += '.';
+  } else {
+    if (val === '0' && key === '0') return;
+    val += key;
+  }
+  el.value = val;
+  document.getElementById('settings-keypad-preview').textContent = val || '';
+}
+
+function kpadSettingsClear() {
+  if (!settingsActiveField) return;
+  const el = document.getElementById(settingsActiveField);
+  if (!el) return;
+  el.value = '';
+  document.getElementById('settings-keypad-preview').textContent = '';
+}
+
+
 
 // ── Solver hint ──
 function solverHint() {
@@ -744,9 +1035,50 @@ function clearAll() {
   lastAW = lastIBW = lastABW = null;
   chipUserOverride = false;
   updateABWChips(false);
+  // Reset keypad
+  document.getElementById('keypad-preview').textContent = '';
+  document.getElementById('keypad-field-label').textContent = 'Tap a field above to enter';
+  if (activeField) {
+    const prev = document.getElementById(activeField);
+    if (prev) prev.parentElement.classList.remove('kpad-active');
+    activeField = null;
+  }
 }
 
 // ── BMI category (Asian cut-offs) ──
+// ── BMI cut-off default persistence ──
+const FACTORY_POP = 'hk00';
+let userPopDefault = FACTORY_POP;
+
+function savePopDefault() {
+  userPopDefault = currentPop;
+  try { localStorage.setItem('nutricPopDefault', userPopDefault); } catch(e) {}
+  updatePopLabel();
+  showToast('★ BMI cut-off saved as default');
+}
+
+function resetPopDefault() {
+  userPopDefault = FACTORY_POP;
+  try { localStorage.removeItem('nutricPopDefault'); } catch(e) {}
+  currentPop = FACTORY_POP;
+  document.querySelectorAll('.pop-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('pop-' + FACTORY_POP).classList.add('active');
+  document.getElementById('pop-hint').textContent = POP[FACTORY_POP].hint;
+  document.getElementById('ibw-bmi').value = POP[FACTORY_POP].ibw;
+  updatePopLabel();
+  showToast('↩ BMI cut-off reset to HK/Asian (WHO 2000)');
+}
+
+function updatePopLabel() {
+  const el = document.getElementById('pop-defaults-label');
+  if (!el) return;
+  el.textContent = userPopDefault === FACTORY_POP
+    ? 'Using original default'
+    : 'Custom default: ' + POP[userPopDefault].label;
+}
+
+// Context for settings keypad: 'formula' or 'bmi' (bmi = no numeric edit, just buttons)
+
 // Population presets
 const POP = {
   hk00: { label: 'HK/Asian (WHO 2000)', ow: 23, ob: 25,   ibw: 22.9,
@@ -870,7 +1202,19 @@ function resetNutrDefaults() {
 
 // Init hint on load
 window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('pop-hint').textContent = POP['hk00'].hint;
+  // Load persisted BMI cut-off default
+  try {
+    const savedPop = localStorage.getItem('nutricPopDefault');
+    if (savedPop && POP[savedPop]) {
+      userPopDefault = savedPop;
+      currentPop = savedPop;
+      document.querySelectorAll('.pop-btn').forEach(b => b.classList.remove('active'));
+      const popBtn = document.getElementById('pop-' + savedPop);
+      if (popBtn) popBtn.classList.add('active');
+    }
+  } catch(e) {}
+  document.getElementById('pop-hint').textContent = POP[currentPop].hint;
+  updatePopLabel();
 
   // Load persisted formula defaults
   try {
@@ -1058,9 +1402,10 @@ function calculate() {
     document.getElementById('res-abw-note').textContent = 'BMI<' + abwThresh;
   }
 
-  // ── Solved box ──
+  // ── Solved box — only show when height or weight was solved (not BMI from W+H) ──
   const solvedRow = document.getElementById('solved-row');
-  if (solvedLabel) {
+  const showSolved = solvedLabel && !solvedLabel.startsWith('BMI');
+  if (showSolved) {
     document.getElementById('solved-label').textContent = solvedLabel;
     document.getElementById('solved-val').textContent   = solvedVal;
     document.getElementById('solved-unit').textContent  = solvedUnit || '';
@@ -1097,6 +1442,103 @@ function calculate() {
   calcNutrition();
 }
 </script>
+<!-- ══ SETTINGS OVERLAY ══ -->
+<div class="settings-overlay" id="settings-overlay">
+  <div class="settings-overlay-inner">
+
+    <div class="settings-overlay-header">
+      <div class="settings-overlay-title">⚙ Settings</div>
+      <button class="settings-close-btn" onclick="closeSettings()">✕ Done</button>
+    </div>
+
+    <!-- BMI Cut-offs -->
+    <div class="card">
+      <div class="card-head" style="margin-bottom:0.6rem;padding-bottom:0.4rem">
+        <div class="card-head-title">BMI Cut-offs</div>
+      </div>
+      <div class="pop-toggle" id="pop-toggle">
+        <button class="pop-btn active" id="pop-hk00" onclick="setPopulation('hk00', this)">🇭🇰 HK/Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2000</span></button>
+        <button class="pop-btn"        id="pop-hk04" onclick="setPopulation('hk04', this)">🌏 Asian<br><span style="font-weight:400;font-size:0.6rem">WHO 2004</span></button>
+        <button class="pop-btn"        id="pop-who"  onclick="setPopulation('who',  this)">🌍 Global<br><span style="font-weight:400;font-size:0.6rem">WHO</span></button>
+      </div>
+      <div class="pop-hint" id="pop-hint" style="margin-top:0.35rem"></div>
+      <div class="formula-actions" style="margin-top:0.5rem">
+        <div class="formula-defaults-label" id="pop-defaults-label"></div>
+        <div class="formula-btns">
+          <button class="fml-btn fml-reset"      onclick="resetPopDefault()">↩ Reset</button>
+          <button class="fml-btn fml-setdefault" onclick="savePopDefault()">★ Set as Default</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formula Values -->
+    <div class="card">
+      <div class="card-head" style="margin-bottom:0.6rem;padding-bottom:0.4rem">
+        <div class="card-head-title">Formula Values</div>
+      </div>
+      <div class="row3">
+        <div class="field">
+          <div class="flabel">IBW BMI</div>
+          <div class="inp-wrap" onclick="setActiveField('ibw-bmi')" style="cursor:pointer">
+            <input type="number" id="ibw-bmi" inputmode="none" readonly min="15" max="30" step="0.1">
+            <span class="inp-sfx">kg/m²</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="flabel">ABW BMI ≥</div>
+          <div class="inp-wrap" onclick="setActiveField('abw-thresh')" style="cursor:pointer">
+            <input type="number" id="abw-thresh" inputmode="none" readonly min="20" max="35" step="0.5">
+            <span class="inp-sfx">BMI</span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="flabel">ABW Factor</div>
+          <div class="inp-wrap" onclick="setActiveField('abw-factor')" style="cursor:pointer">
+            <input type="number" id="abw-factor" inputmode="none" readonly min="0.1" max="0.9" step="0.05">
+            <span class="inp-sfx">×</span>
+          </div>
+        </div>
+      </div>
+      <p class="settings-hint">IBW = IBW BMI × h² &nbsp;·&nbsp; ABW = IBW + factor × (AW − IBW), when BMI ≥ threshold</p>
+      <div class="formula-actions" style="margin-top:0.5rem">
+        <div class="formula-defaults-label" id="formula-defaults-label"></div>
+        <div class="formula-btns">
+          <button class="fml-btn fml-reset"      onclick="resetFormulaDefaults()">↩ Reset</button>
+          <button class="fml-btn fml-setdefault" onclick="setFormulaDefaults()">★ Set as Default</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Keypad -->
+    <div class="keypad" id="settings-keypad">
+      <div class="keypad-active-label">
+        <span id="settings-keypad-label">Tap a value above to edit</span>
+        <span class="keypad-val-preview" id="settings-keypad-preview"></span>
+      </div>
+      <div class="keypad-grid">
+        <button class="kbtn" onclick="kpadSettings('7')">7</button>
+        <button class="kbtn" onclick="kpadSettings('8')">8</button>
+        <button class="kbtn" onclick="kpadSettings('9')">9</button>
+        <button class="kbtn kbtn-action" onclick="kpadSettings('del')">⌫</button>
+
+        <button class="kbtn" onclick="kpadSettings('4')">4</button>
+        <button class="kbtn" onclick="kpadSettings('5')">5</button>
+        <button class="kbtn" onclick="kpadSettings('6')">6</button>
+        <button class="kbtn kbtn-clear" onclick="kpadSettingsClear()">CLR</button>
+
+        <button class="kbtn" onclick="kpadSettings('1')">1</button>
+        <button class="kbtn" onclick="kpadSettings('2')">2</button>
+        <button class="kbtn" onclick="kpadSettings('3')">3</button>
+        <button class="kbtn kbtn-calc" onclick="closeSettings()">Done</button>
+
+        <button class="kbtn kbtn-wide" onclick="kpadSettings('0')">0</button>
+        <button class="kbtn" onclick="kpadSettings('.')">.</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
