@@ -152,6 +152,7 @@ html, body {
 }
 .inp-wrap input {
   flex: 1;
+  width: 0; /* force flex to control width, not content */
   border: none;
   background: transparent;
   padding: 0.6rem 0.55rem;
@@ -506,6 +507,7 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 .kbtn:active { background: #e0eded; transform: scale(0.95); }
+.kbtn-pressed { background: #e0eded !important; transform: scale(0.95) !important; }
 .kbtn-wide {
   grid-column: span 2;
 }
@@ -709,7 +711,7 @@ html, body {
       <div class="field">
         <div class="flabel">Weight (kg)</div>
         <div class="inp-wrap" id="iw-w" onclick="setActiveField('sol-w')" style="cursor:pointer">
-          <input type="number" id="sol-w" inputmode="none" readonly placeholder="kg" min="20" max="300" step="0.1" oninput="solverHint()">
+          <input type="text" inputmode="none" readonly size="1" id="sol-w" placeholder="kg" oninput="solverHint()">
           <span class="inp-sfx">kg</span>
         </div>
         <div class="solve-tag" id="tag-w"></div>
@@ -717,7 +719,7 @@ html, body {
       <div class="field">
         <div class="flabel">Height (cm)</div>
         <div class="inp-wrap" id="iw-h" onclick="setActiveField('sol-h')" style="cursor:pointer">
-          <input type="number" id="sol-h" inputmode="none" readonly placeholder="cm" min="100" max="250" step="0.1" oninput="solverHint()">
+          <input type="text" inputmode="none" readonly size="1" id="sol-h" placeholder="cm" oninput="solverHint()">
           <span class="inp-sfx">cm</span>
         </div>
         <div class="solve-tag" id="tag-h"></div>
@@ -725,7 +727,7 @@ html, body {
       <div class="field">
         <div class="flabel">BMI</div>
         <div class="inp-wrap" id="iw-b" onclick="setActiveField('sol-b')" style="cursor:pointer">
-          <input type="number" id="sol-b" inputmode="none" readonly placeholder="opt." min="10" max="70" step="0.1" oninput="solverHint()">
+          <input type="text" inputmode="none" readonly size="1" id="sol-b" placeholder="opt." oninput="solverHint()">
           <span class="inp-sfx">kg/m²</span>
         </div>
         <div class="solve-tag" id="tag-b"></div>
@@ -792,7 +794,7 @@ html, body {
         <div class="nutr-compact-head">
           <span class="nutr-icon-sm">⚡</span>
           <div class="inp-wrap nutr-inp-sm" onclick="setActiveField('nutr-kcal')" style="cursor:pointer">
-            <input type="number" id="nutr-kcal" inputmode="none" readonly min="5" max="60" step="0.5" oninput="calcNutrition()">
+            <input type="text" inputmode="none" readonly size="1" id="nutr-kcal" oninput="calcNutrition()">
             <span class="inp-sfx">kcal/kg</span>
           </div>
         </div>
@@ -807,7 +809,7 @@ html, body {
         <div class="nutr-compact-head">
           <span class="nutr-icon-sm">🥩</span>
           <div class="inp-wrap nutr-inp-sm" onclick="setActiveField('nutr-prot')" style="cursor:pointer">
-            <input type="number" id="nutr-prot" inputmode="none" readonly min="0.1" max="4" step="0.05" oninput="calcNutrition()">
+            <input type="text" inputmode="none" readonly size="1" id="nutr-prot" oninput="calcNutrition()">
             <span class="inp-sfx">g/kg</span>
           </div>
         </div>
@@ -836,25 +838,24 @@ html, body {
         <span id="keypad-field-label">Tap a field above to enter</span>
         <span class="keypad-val-preview" id="keypad-preview"></span>
       </div>
-      <div class="keypad-grid">
-        <button class="kbtn" onclick="kpad('7')">7</button>
-        <button class="kbtn" onclick="kpad('8')">8</button>
-        <button class="kbtn" onclick="kpad('9')">9</button>
-        <button class="kbtn kbtn-action" onclick="kpad('del')">⌫</button>
+      <div class="keypad-grid" id="main-keypad-grid">
+        <button class="kbtn" data-key="7">7</button>
+        <button class="kbtn" data-key="8">8</button>
+        <button class="kbtn" data-key="9">9</button>
+        <button class="kbtn kbtn-action" data-key="del">⌫</button>
 
-        <button class="kbtn" onclick="kpad('4')">4</button>
-        <button class="kbtn" onclick="kpad('5')">5</button>
-        <button class="kbtn" onclick="kpad('6')">6</button>
-        <button class="kbtn kbtn-clear" onclick="clearAll()">CLR</button>
+        <button class="kbtn" data-key="4">4</button>
+        <button class="kbtn" data-key="5">5</button>
+        <button class="kbtn" data-key="6">6</button>
+        <button class="kbtn kbtn-clear" data-key="clr">CLR</button>
 
-        <button class="kbtn" onclick="kpad('1')">1</button>
-        <button class="kbtn" onclick="kpad('2')">2</button>
-        <button class="kbtn" onclick="kpad('3')">3</button>
-        <button class="kbtn kbtn-calc" onclick="calculate()">GO<br><span style="font-size:0.6rem;font-weight:400">Calc</span></button>
+        <button class="kbtn" data-key="1">1</button>
+        <button class="kbtn" data-key="2">2</button>
+        <button class="kbtn" data-key="3">3</button>
+        <button class="kbtn kbtn-calc" data-key="go">GO<br><span style="font-size:0.6rem;font-weight:400">Calc</span></button>
 
-        <button class="kbtn kbtn-wide" onclick="kpad('0')">0</button>
-        <button class="kbtn" onclick="kpad('.')">.</button>
-        <!-- calc spans 2 rows via CSS -->
+        <button class="kbtn kbtn-wide" data-key="0">0</button>
+        <button class="kbtn" data-key=".">.</button>
       </div>
     </div>
   </div>
@@ -926,6 +927,7 @@ function openSettings() {
   settingsActiveField = null;
   document.getElementById('settings-keypad-label').textContent = 'Tap a value above to edit';
   document.getElementById('settings-keypad-preview').textContent = '';
+  // Settings keypad already inited at DOMContentLoaded
 }
 
 function closeSettings() {
@@ -1326,6 +1328,66 @@ function calcNutrition() {
   }
 }
 
+// ── Keypad event delegation (fixes iOS double-tap + scroll jump) ──
+function initKeypad(gridId, handler) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  if (grid._kpadInited) return; // prevent double-init
+  grid._kpadInited = true;
+  let recentTouch = false;
+
+  grid.addEventListener('touchstart', function(e) {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    e.preventDefault();
+    btn.classList.add('kbtn-pressed');
+    recentTouch = true;
+  }, { passive: false });
+
+  grid.addEventListener('touchend', function(e) {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    e.preventDefault();
+    btn.classList.remove('kbtn-pressed');
+    handler(btn);
+    // Block the subsequent click for 500ms
+    recentTouch = true;
+    setTimeout(() => { recentTouch = false; }, 500);
+  }, { passive: false });
+
+  // Click fallback for desktop only
+  grid.addEventListener('click', function(e) {
+    if (recentTouch) return; // blocked after touch
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    handler(btn);
+  });
+}
+
+// Init both keypads after full DOM ready (including overlay)
+function initAllKeypads() {
+  initKeypad('main-keypad-grid', handleMainKey);
+  initKeypad('settings-keypad-grid', handleSettingsKey);
+}
+
+function handleMainKey(btn) {
+  const key = btn.dataset.key;
+  if (!key) return;
+  if (key === 'go')  { calculate(); return; }
+  if (key === 'clr') { clearAll();  return; }
+  kpad(key);
+}
+
+function handleSettingsKey(btn) {
+  const key = btn.dataset.skey;
+  if (!key) return;
+  if (key === 'done') { closeSettings(); return; }
+  if (key === 'clr')  { kpadSettingsClear(); return; }
+  kpadSettings(key);
+}
+
+window.addEventListener('DOMContentLoaded', initAllKeypads);
+
 // ── Main calculate ──
 function calculate() {
   const wRaw = document.getElementById('sol-w').value.trim();
@@ -1484,21 +1546,21 @@ function calculate() {
         <div class="field">
           <div class="flabel">IBW BMI</div>
           <div class="inp-wrap" onclick="setActiveField('ibw-bmi')" style="cursor:pointer">
-            <input type="number" id="ibw-bmi" inputmode="none" readonly min="15" max="30" step="0.1">
+            <input type="text" inputmode="none" readonly size="1" id="ibw-bmi">
             <span class="inp-sfx">kg/m²</span>
           </div>
         </div>
         <div class="field">
           <div class="flabel">ABW BMI ≥</div>
           <div class="inp-wrap" onclick="setActiveField('abw-thresh')" style="cursor:pointer">
-            <input type="number" id="abw-thresh" inputmode="none" readonly min="20" max="35" step="0.5">
+            <input type="text" inputmode="none" readonly size="1" id="abw-thresh">
             <span class="inp-sfx">BMI</span>
           </div>
         </div>
         <div class="field">
           <div class="flabel">ABW Factor</div>
           <div class="inp-wrap" onclick="setActiveField('abw-factor')" style="cursor:pointer">
-            <input type="number" id="abw-factor" inputmode="none" readonly min="0.1" max="0.9" step="0.05">
+            <input type="text" inputmode="none" readonly size="1" id="abw-factor">
             <span class="inp-sfx">×</span>
           </div>
         </div>
@@ -1519,24 +1581,24 @@ function calculate() {
         <span id="settings-keypad-label">Tap a value above to edit</span>
         <span class="keypad-val-preview" id="settings-keypad-preview"></span>
       </div>
-      <div class="keypad-grid">
-        <button class="kbtn" onclick="kpadSettings('7')">7</button>
-        <button class="kbtn" onclick="kpadSettings('8')">8</button>
-        <button class="kbtn" onclick="kpadSettings('9')">9</button>
-        <button class="kbtn kbtn-action" onclick="kpadSettings('del')">⌫</button>
+      <div class="keypad-grid" id="settings-keypad-grid">
+        <button class="kbtn" data-skey="7">7</button>
+        <button class="kbtn" data-skey="8">8</button>
+        <button class="kbtn" data-skey="9">9</button>
+        <button class="kbtn kbtn-action" data-skey="del">⌫</button>
 
-        <button class="kbtn" onclick="kpadSettings('4')">4</button>
-        <button class="kbtn" onclick="kpadSettings('5')">5</button>
-        <button class="kbtn" onclick="kpadSettings('6')">6</button>
-        <button class="kbtn kbtn-clear" onclick="kpadSettingsClear()">CLR</button>
+        <button class="kbtn" data-skey="4">4</button>
+        <button class="kbtn" data-skey="5">5</button>
+        <button class="kbtn" data-skey="6">6</button>
+        <button class="kbtn kbtn-clear" data-skey="clr">CLR</button>
 
-        <button class="kbtn" onclick="kpadSettings('1')">1</button>
-        <button class="kbtn" onclick="kpadSettings('2')">2</button>
-        <button class="kbtn" onclick="kpadSettings('3')">3</button>
-        <button class="kbtn kbtn-calc" onclick="closeSettings()">Done</button>
+        <button class="kbtn" data-skey="1">1</button>
+        <button class="kbtn" data-skey="2">2</button>
+        <button class="kbtn" data-skey="3">3</button>
+        <button class="kbtn kbtn-calc" data-skey="done">Done</button>
 
-        <button class="kbtn kbtn-wide" onclick="kpadSettings('0')">0</button>
-        <button class="kbtn" onclick="kpadSettings('.')">.</button>
+        <button class="kbtn kbtn-wide" data-skey="0">0</button>
+        <button class="kbtn" data-skey=".">.</button>
       </div>
     </div>
 
