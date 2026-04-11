@@ -111,7 +111,7 @@ html, body {
 .settings-btn:hover { color: var(--teal); }
 
 /* ── Grid layouts ── */
-.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; align-items: start; }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
 .row4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
 .rg2  { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
@@ -140,6 +140,7 @@ html, body {
   background: #fafaf8;
   overflow: hidden;
   transition: border-color 0.18s, box-shadow 0.18s;
+  height: 3rem; /* fixed height — prevents content from pushing keypad down */
 }
 .inp-wrap:focus-within {
   border-color: var(--teal-mid);
@@ -155,9 +156,10 @@ html, body {
   width: 0; /* force flex to control width, not content */
   border: none;
   background: transparent;
-  padding: 0.6rem 0.55rem;
+  padding: 0 0.55rem;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 16px; /* ≥16px prevents iOS auto-zoom on focus */
+  line-height: 3rem; /* match inp-wrap fixed height */
   color: var(--text);
   min-width: 0;
   outline: none;
@@ -463,6 +465,13 @@ html, body {
   border-radius: 12px;
   padding: 0.55rem 0.5rem 0.5rem;
   border: 1px solid var(--border);
+  flex-shrink: 0; /* don't shrink */
+}
+
+/* Wrapper to stabilise card height */
+.card-stable {
+  display: flex;
+  flex-direction: column;
 }
 .keypad-active-label {
   display: flex;
@@ -470,6 +479,8 @@ html, body {
   justify-content: space-between;
   margin-bottom: 0.4rem;
   padding: 0 0.1rem;
+  height: 1.6rem; /* fixed — preview number can't expand this row */
+  overflow: hidden;
 }
 #keypad-field-label {
   font-size: 0.68rem;
@@ -477,14 +488,16 @@ html, body {
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  line-height: 1.6rem;
 }
 .keypad-val-preview {
   font-family: 'DM Serif Display', Georgia, serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--teal);
   font-weight: 400;
   min-width: 60px;
   text-align: right;
+  line-height: 1.6rem;
 }
 .keypad-grid {
   display: grid;
@@ -698,7 +711,7 @@ html, body {
   </div>
 
   <!-- ══════ MAIN CARD ══════ -->
-  <div class="card">
+  <div class="card card-stable">
     <div class="card-head">
       <div class="card-head-title">📋 Patient Data</div>
       <button class="settings-btn" onclick="openSettings()" id="settings-toggle">⚙ Settings ▸</button>
@@ -711,7 +724,7 @@ html, body {
       <div class="field">
         <div class="flabel">Weight (kg)</div>
         <div class="inp-wrap" id="iw-w" onclick="setActiveField('sol-w')" style="cursor:pointer">
-          <input type="text" inputmode="none" readonly size="1" id="sol-w" placeholder="kg" oninput="solverHint()">
+          <input type="text" inputmode="none" readonly size="1" autocomplete="off" id="sol-w" placeholder="kg" oninput="solverHint()">
           <span class="inp-sfx">kg</span>
         </div>
         <div class="solve-tag" id="tag-w"></div>
@@ -719,7 +732,7 @@ html, body {
       <div class="field">
         <div class="flabel">Height (cm)</div>
         <div class="inp-wrap" id="iw-h" onclick="setActiveField('sol-h')" style="cursor:pointer">
-          <input type="text" inputmode="none" readonly size="1" id="sol-h" placeholder="cm" oninput="solverHint()">
+          <input type="text" inputmode="none" readonly size="1" autocomplete="off" id="sol-h" placeholder="cm" oninput="solverHint()">
           <span class="inp-sfx">cm</span>
         </div>
         <div class="solve-tag" id="tag-h"></div>
@@ -727,7 +740,7 @@ html, body {
       <div class="field">
         <div class="flabel">BMI</div>
         <div class="inp-wrap" id="iw-b" onclick="setActiveField('sol-b')" style="cursor:pointer">
-          <input type="text" inputmode="none" readonly size="1" id="sol-b" placeholder="opt." oninput="solverHint()">
+          <input type="text" inputmode="none" readonly size="1" autocomplete="off" id="sol-b" placeholder="opt." oninput="solverHint()">
           <span class="inp-sfx">kg/m²</span>
         </div>
         <div class="solve-tag" id="tag-b"></div>
@@ -794,7 +807,7 @@ html, body {
         <div class="nutr-compact-head">
           <span class="nutr-icon-sm">⚡</span>
           <div class="inp-wrap nutr-inp-sm" onclick="setActiveField('nutr-kcal')" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly size="1" id="nutr-kcal" oninput="calcNutrition()">
+            <input type="text" inputmode="none" readonly size="1" autocomplete="off" id="nutr-kcal" oninput="calcNutrition()">
             <span class="inp-sfx">kcal/kg</span>
           </div>
         </div>
@@ -809,7 +822,7 @@ html, body {
         <div class="nutr-compact-head">
           <span class="nutr-icon-sm">🥩</span>
           <div class="inp-wrap nutr-inp-sm" onclick="setActiveField('nutr-prot')" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly size="1" id="nutr-prot" oninput="calcNutrition()">
+            <input type="text" inputmode="none" readonly size="1" autocomplete="off" id="nutr-prot" oninput="calcNutrition()">
             <span class="inp-sfx">g/kg</span>
           </div>
         </div>
@@ -1039,7 +1052,6 @@ function clearAll() {
   document.getElementById('res-note').innerHTML = '';
   document.getElementById('main-err').style.display = 'none';
   lastAW = lastIBW = lastABW = null;
-  chipUserOverride = false;
   updateABWChips(false);
   // Reset keypad
   document.getElementById('keypad-preview').textContent = '';
@@ -1168,42 +1180,63 @@ function showToast(msg) {
 }
 
 // ── Nutrition defaults ──
-const FACTORY_NUTR = { kcal: 25, prot: 1.5 };
+const FACTORY_NUTR = { kcal: 25, prot: 1.5, eBW: 'adjusted', pBW: 'adjusted' };
 let userNutrDefaults = { ...FACTORY_NUTR };
+let nutrDefaultIsCustom = false; // true only when user has explicitly set a custom default
 
 function loadNutrFields(vals) {
   document.getElementById('nutr-kcal').value = vals.kcal;
   document.getElementById('nutr-prot').value = vals.prot;
+  // Restore BW chip selections
+  if (vals.eBW) {
+    energyBW = vals.eBW;
+    document.querySelectorAll('#energy-chips .chip').forEach(c => c.classList.remove('active'));
+    const ec = document.querySelector('#energy-chips [data-bw="' + vals.eBW + '"]');
+    if (ec) ec.classList.add('active');
+  }
+  if (vals.pBW) {
+    protBW = vals.pBW;
+    document.querySelectorAll('#prot-chips .chip').forEach(c => c.classList.remove('active'));
+    const pc = document.querySelector('#prot-chips [data-bw="' + vals.pBW + '"]');
+    if (pc) pc.classList.add('active');
+  }
 }
 
 function updateNutrLabel() {
   const isFactory =
     userNutrDefaults.kcal === FACTORY_NUTR.kcal &&
-    userNutrDefaults.prot === FACTORY_NUTR.prot;
+    userNutrDefaults.prot === FACTORY_NUTR.prot &&
+    userNutrDefaults.eBW  === FACTORY_NUTR.eBW  &&
+    userNutrDefaults.pBW  === FACTORY_NUTR.pBW;
   const el = document.getElementById('nutr-defaults-label');
   if (!el) return;
+  const bwLabel = bw => bw === 'adjusted' ? 'ABW' : bw === 'ideal' ? 'IBW' : 'AW';
   el.textContent = isFactory
     ? 'Using original defaults'
-    : 'Custom default: ' + userNutrDefaults.kcal + ' kcal/kg · ' + userNutrDefaults.prot + ' g/kg';
+    : 'Energy: ' + userNutrDefaults.kcal + ' kcal/kg (' + bwLabel(userNutrDefaults.eBW) + ')  ·  Protein: ' + userNutrDefaults.prot + ' g/kg (' + bwLabel(userNutrDefaults.pBW) + ')';
 }
 
 function setNutrDefaults() {
   const kcal = parseFloat(document.getElementById('nutr-kcal').value);
   const prot = parseFloat(document.getElementById('nutr-prot').value);
   if (Number.isNaN(kcal) || Number.isNaN(prot) || kcal <= 0 || prot <= 0) return;
-  userNutrDefaults = { kcal, prot };
+  userNutrDefaults = { kcal, prot, eBW: energyBW, pBW: protBW };
+  nutrDefaultIsCustom = true;
   localStorage.setItem('nutricNutrDefaults', JSON.stringify(userNutrDefaults));
+  localStorage.setItem('nutricNutrCustom', '1');
   updateNutrLabel();
   showToast('★ Nutrition defaults saved');
 }
 
 function resetNutrDefaults() {
   userNutrDefaults = { ...FACTORY_NUTR };
+  nutrDefaultIsCustom = false;
   localStorage.removeItem('nutricNutrDefaults');
+  localStorage.removeItem('nutricNutrCustom');
   loadNutrFields(FACTORY_NUTR);
   updateNutrLabel();
   calcNutrition();
-  showToast('↩ Reset to 25 kcal/kg · 1.5 g/kg');
+  showToast('↩ Reset to 25 kcal/kg (ABW) · 1.5 g/kg (ABW)');
 }
 
 // Init hint on load
@@ -1234,6 +1267,7 @@ window.addEventListener('DOMContentLoaded', () => {
   try {
     const savedNutr = localStorage.getItem('nutricNutrDefaults');
     if (savedNutr) userNutrDefaults = { ...FACTORY_NUTR, ...JSON.parse(savedNutr) };
+    nutrDefaultIsCustom = localStorage.getItem('nutricNutrCustom') === '1';
   } catch(e) {}
   loadNutrFields(userNutrDefaults);
   updateNutrLabel();
@@ -1265,7 +1299,7 @@ function setChip(group, btn) {
   btn.classList.add('active');
   if (group === 'energy') energyBW = btn.dataset.bw;
   else                    protBW   = btn.dataset.bw;
-  chipUserOverride = true; // user explicitly chose — respect their choice
+  // No override — auto-switch still applies on next calculate()
   if (lastAW) calcNutrition();
 }
 
@@ -1273,7 +1307,8 @@ function setChip(group, btn) {
 function updateABWChips(userOverride) {
   // Called after every calculate().
   // Auto-selects ABW if applicable, Actual BW if not —
-  // UNLESS userOverride=true (user manually tapped a chip after last calculate).
+  // UNLESS userOverride=true (user manually tapped a chip after last calculate)
+  // OR nutrDefaultIsCustom=true (user has a saved custom default — respect it).
   const groups = [
     { chipId: 'chip-e-abw', group: 'energy', bwVar: () => energyBW, setBW: v => { energyBW = v; } },
     { chipId: 'chip-p-abw', group: 'prot',   bwVar: () => protBW,   setBW: v => { protBW   = v; } }
@@ -1282,11 +1317,11 @@ function updateABWChips(userOverride) {
   groups.forEach(({ chipId, group, bwVar, setBW }) => {
     const abwChip = document.getElementById(chipId);
     if (lastABW !== null) {
-      // ABW is applicable
+      // ABW is applicable — enable chip
       abwChip.classList.remove('disabled');
       abwChip.title = '';
-      if (!userOverride) {
-        // Auto-select ABW
+      if (!nutrDefaultIsCustom) {
+        // Auto-select ABW (only if no manual override AND no custom default)
         document.querySelectorAll('#' + group + '-chips .chip').forEach(c => c.classList.remove('active'));
         abwChip.classList.add('active');
         setBW('adjusted');
@@ -1295,9 +1330,12 @@ function updateABWChips(userOverride) {
       // ABW not applicable — disable chip, fall back to Actual BW
       abwChip.classList.add('disabled');
       abwChip.title = 'ABW not applicable';
-      document.querySelectorAll('#' + group + '-chips .chip').forEach(c => c.classList.remove('active'));
-      document.querySelector('#' + group + '-chips [data-bw="actual"]').classList.add('active');
-      setBW('actual');
+      // Only force-switch to actual if current selection is adjusted
+      if (bwVar() === 'adjusted') {
+        document.querySelectorAll('#' + group + '-chips .chip').forEach(c => c.classList.remove('active'));
+        document.querySelector('#' + group + '-chips [data-bw="actual"]').classList.add('active');
+        setBW('actual');
+      }
     }
   });
 }
@@ -1374,7 +1412,20 @@ function handleMainKey(btn) {
   const key = btn.dataset.key;
   if (!key) return;
   if (key === 'go')  { calculate(); return; }
-  if (key === 'clr') { clearAll();  return; }
+  if (key === 'clr') {
+    // If active field is a nutr field, just clear that field
+    if (activeField === 'nutr-kcal' || activeField === 'nutr-prot') {
+      const el = document.getElementById(activeField);
+      if (el) {
+        el.value = '';
+        document.getElementById('keypad-preview').textContent = '';
+        calcNutrition();
+      }
+    } else {
+      clearAll();
+    }
+    return;
+  }
   kpad(key);
 }
 
@@ -1492,7 +1543,7 @@ function calculate() {
 
   // ── Store state ──
   lastAW = aw; lastIBW = ibw; lastABW = useABW ? abw : null;
-  chipUserOverride = false; // new calculation — reset to auto-select logic
+  // auto-switch BW chips on each calculate (unless custom default)
 
   // ── Update ABW chips: auto-select correct BW ──
   updateABWChips(false);
@@ -1505,6 +1556,7 @@ function calculate() {
   if (!document.getElementById('nutr-kcal').value) document.getElementById('nutr-kcal').value = userNutrDefaults.kcal;
   if (!document.getElementById('nutr-prot').value) document.getElementById('nutr-prot').value = userNutrDefaults.prot;
   updateNutrLabel();
+  // Note: BW chips are managed by updateABWChips() called above
   calcNutrition();
 }
 </script>
@@ -1546,21 +1598,21 @@ function calculate() {
         <div class="field">
           <div class="flabel">IBW BMI</div>
           <div class="inp-wrap" onclick="setActiveField('ibw-bmi')" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly size="1" id="ibw-bmi">
+            <input type="text" inputmode="none" readonly size="1" autocomplete="off" id="ibw-bmi">
             <span class="inp-sfx">kg/m²</span>
           </div>
         </div>
         <div class="field">
           <div class="flabel">ABW BMI ≥</div>
           <div class="inp-wrap" onclick="setActiveField('abw-thresh')" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly size="1" id="abw-thresh">
+            <input type="text" inputmode="none" readonly size="1" autocomplete="off" id="abw-thresh">
             <span class="inp-sfx">BMI</span>
           </div>
         </div>
         <div class="field">
           <div class="flabel">ABW Factor</div>
           <div class="inp-wrap" onclick="setActiveField('abw-factor')" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly size="1" id="abw-factor">
+            <input type="text" inputmode="none" readonly size="1" autocomplete="off" id="abw-factor">
             <span class="inp-sfx">×</span>
           </div>
         </div>
