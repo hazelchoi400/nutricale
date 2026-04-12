@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)file:///C:/Users/user/Downloads/NutriCalc_Pro_4.html -->
+<!-- saved from url=(0052)file:///C:/Users/user/Downloads/NutriCalc_Pro_5.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -740,63 +740,63 @@ html, body {
       <div class="field">
         <div class="flabel">Weight (kg)</div>
         <div class="inp-wrap" id="iw-w" onclick="setActiveField(&#39;sol-w&#39;)" style="cursor:pointer">
-          <input type="text" inputmode="none" readonly="" size="1" autocomplete="off" id="sol-w" placeholder="kg" oninput="solverHint()">
+          <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="sol-w" placeholder="kg" oninput="solverHint()">
           <span class="inp-sfx">kg</span>
         </div>
         <div class="solve-tag" id="tag-w"></div>
       </div>
       <div class="field">
         <div class="flabel">Height (cm)</div>
-        <div class="inp-wrap kpad-active" id="iw-h" onclick="setActiveField(&#39;sol-h&#39;)" style="cursor:pointer">
-          <input type="text" inputmode="none" readonly="" size="1" autocomplete="off" id="sol-h" placeholder="cm" oninput="solverHint()">
+        <div class="inp-wrap" id="iw-h" onclick="setActiveField(&#39;sol-h&#39;)" style="cursor:pointer">
+          <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="sol-h" placeholder="cm" oninput="solverHint()">
           <span class="inp-sfx">cm</span>
         </div>
         <div class="solve-tag" id="tag-h"></div>
       </div>
       <div class="field">
         <div class="flabel">BMI</div>
-        <div class="inp-wrap solve-target" id="iw-b" onclick="setActiveField(&#39;sol-b&#39;)" style="cursor:pointer">
-          <input type="text" inputmode="none" readonly="" size="1" autocomplete="off" id="sol-b" placeholder="opt." oninput="solverHint()">
+        <div class="inp-wrap" id="iw-b" onclick="setActiveField(&#39;sol-b&#39;)" style="cursor:pointer">
+          <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="sol-b" placeholder="opt." oninput="solverHint()">
           <span class="inp-sfx">kg/m²</span>
         </div>
-        <div class="solve-tag" id="tag-b">← will solve</div>
+        <div class="solve-tag" id="tag-b"></div>
       </div>
     </div>
 
     <!-- ── RESULTS (shown after calculate) ── -->
-    <div class="" id="results-wrap">
+    <div class="hidden" id="results-wrap">
 
       <!-- 5-col results row: BMI | IBW | ABW | Energy | Protein -->
       <div class="results-row">
         <div class="rbox c-teal">
           <div class="rl">BMI</div>
-          <div class="rv" id="res-bmi">66.7</div>
+          <div class="rv" id="res-bmi">—</div>
           <div class="ru">kg/m²</div>
-          <div><span class="bmi-badge ob" id="res-bmi-badge">Obese</span></div>
+          <div><span class="bmi-badge" id="res-bmi-badge"></span></div>
         </div>
         <div class="rbox c-teal">
           <div class="rl">IBW</div>
-          <div class="rv" id="res-ibw">51.5</div>
+          <div class="rv" id="res-ibw">—</div>
           <div class="ru">kg</div>
-          <div class="rn" id="res-ibw-note">22.9×1.50²</div>
+          <div class="rn" id="res-ibw-note"></div>
         </div>
-        <div class="rbox c-gold" id="res-abw-box">
+        <div class="rbox c-grey" id="res-abw-box">
           <div class="rl">ABW</div>
-          <div class="rv" id="res-abw">76.1</div>
-          <div class="ru" id="res-abw-unit">kg</div>
-          <div class="rn" id="res-abw-note">0.25×(150.0−51.5)</div>
+          <div class="rv" id="res-abw">—</div>
+          <div class="ru" id="res-abw-unit"></div>
+          <div class="rn" id="res-abw-note"></div>
         </div>
         <div class="rbox c-red">
           <div class="rl">Energy</div>
-          <div class="rv" id="res-energy">1904</div>
+          <div class="rv" id="res-energy">—</div>
           <div class="ru">kcal/d</div>
-          <div class="rn" id="res-energy-note">25 × 76.1 (ABW)</div>
+          <div class="rn" id="res-energy-note"></div>
         </div>
         <div class="rbox c-blue">
           <div class="rl">Protein</div>
-          <div class="rv" id="res-prot">225.0</div>
+          <div class="rv" id="res-prot">—</div>
           <div class="ru">g/d</div>
-          <div class="rn" id="res-prot-note">1.5 × 150.0 (AW)</div>
+          <div class="rn" id="res-prot-note"></div>
         </div>
       </div>
 
@@ -810,7 +810,7 @@ html, body {
       </div>
 
       <!-- Clinical note -->
-      <div class="cnote" id="res-note"><strong>⚖ Use ABW.</strong> BMI 66.7 ≥ 26. AW is 191% above IBW.</div>
+      <div class="cnote" id="res-note"></div>
       <div class="abbrev-line">AW = Actual Weight &nbsp;·&nbsp; IBW = Ideal Body Weight &nbsp;·&nbsp; ABW = Adjusted Body Weight</div>
 
     </div><!-- /results-wrap -->
@@ -824,14 +824,14 @@ html, body {
         <div class="nutr-compact-head">
           <span class="nutr-icon-sm">⚡</span>
           <div class="inp-wrap nutr-inp-sm" onclick="setActiveField(&#39;nutr-kcal&#39;)" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly="" size="1" autocomplete="off" id="nutr-kcal" oninput="calcNutrition()">
+            <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="nutr-kcal" oninput="calcNutrition()">
             <span class="inp-sfx">kcal/kg</span>
           </div>
         </div>
         <div class="chip-row" id="energy-chips">
           <button class="chip" data-bw="actual" onclick="setChip(&#39;energy&#39;,this)">AW</button>
           <button class="chip" data-bw="ideal" onclick="setChip(&#39;energy&#39;,this)">IBW</button>
-          <button class="chip active" data-bw="adjusted" onclick="setChip(&#39;energy&#39;,this)" id="chip-e-abw" title="">ABW</button>
+          <button class="chip active" data-bw="adjusted" onclick="setChip(&#39;energy&#39;,this)" id="chip-e-abw">ABW</button>
         </div>
       </div>
       <!-- Protein -->
@@ -839,14 +839,14 @@ html, body {
         <div class="nutr-compact-head">
           <span class="nutr-icon-sm">🥩</span>
           <div class="inp-wrap nutr-inp-sm" onclick="setActiveField(&#39;nutr-prot&#39;)" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly="" size="1" autocomplete="off" id="nutr-prot" oninput="calcNutrition()">
+            <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="nutr-prot" oninput="calcNutrition()">
             <span class="inp-sfx">g/kg</span>
           </div>
         </div>
         <div class="chip-row" id="prot-chips">
-          <button class="chip active" data-bw="actual" onclick="setChip(&#39;prot&#39;,this)">AW</button>
+          <button class="chip" data-bw="actual" onclick="setChip(&#39;prot&#39;,this)">AW</button>
           <button class="chip" data-bw="ideal" onclick="setChip(&#39;prot&#39;,this)">IBW</button>
-          <button class="chip" data-bw="adjusted" onclick="setChip(&#39;prot&#39;,this)" id="chip-p-abw" title="">ABW</button>
+          <button class="chip active" data-bw="adjusted" onclick="setChip(&#39;prot&#39;,this)" id="chip-p-abw">ABW</button>
         </div>
       </div>
     </div>
@@ -860,13 +860,13 @@ html, body {
       </div>
     </div>
 
-    <div class="err" id="main-err" style="display: none;">⚠ Enter Weight + Height (BMI optional — leave blank to solve it, or enter any two to solve the third).</div>
+    <div class="err" id="main-err">⚠ Enter Weight + Height (BMI optional — leave blank to solve it, or enter any two to solve the third).</div>
 
     <!-- ── Custom Keypad ── -->
     <div class="keypad" id="keypad">
       <div class="keypad-active-label">
-        <span id="keypad-field-label">Height (cm)</span>
-        <span class="keypad-val-preview" id="keypad-preview">150</span>
+        <span id="keypad-field-label">Tap a field above to enter</span>
+        <span class="keypad-val-preview" id="keypad-preview"></span>
       </div>
       <div class="keypad-grid" id="main-keypad-grid">
         <button class="kbtn" data-key="7">7</button>
@@ -1650,21 +1650,21 @@ function calculate() {
         <div class="field">
           <div class="flabel">IBW BMI</div>
           <div class="inp-wrap" onclick="setActiveField(&#39;ibw-bmi&#39;)" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly="" size="1" autocomplete="off" id="ibw-bmi">
+            <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="ibw-bmi">
             <span class="inp-sfx">kg/m²</span>
           </div>
         </div>
         <div class="field">
           <div class="flabel">ABW BMI ≥</div>
           <div class="inp-wrap" onclick="setActiveField(&#39;abw-thresh&#39;)" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly="" size="1" autocomplete="off" id="abw-thresh">
+            <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="abw-thresh">
             <span class="inp-sfx">BMI</span>
           </div>
         </div>
         <div class="field">
           <div class="flabel">ABW Factor</div>
           <div class="inp-wrap" onclick="setActiveField(&#39;abw-factor&#39;)" style="cursor:pointer">
-            <input type="text" inputmode="none" readonly="" size="1" autocomplete="off" id="abw-factor">
+            <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="abw-factor">
             <span class="inp-sfx">×</span>
           </div>
         </div>
