@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)file:///C:/Users/user/Downloads/NutriCalc_Pro_9.html -->
+<!-- saved from url=(0052)file:///C:/Users/user/Downloads/NutriCalc_Pro_7.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -472,9 +472,7 @@ html, body {
   border-radius: 12px;
   padding: 0.55rem 0.5rem 0.5rem;
   border: 1px solid var(--border);
-  position: sticky;
-  bottom: 0.5rem;
-  z-index: 10;
+  flex-shrink: 0; /* don't shrink */
 }
 
 /* Wrapper to stabilise card height */
@@ -750,7 +748,7 @@ html, body {
       </div>
       <div class="field">
         <div class="flabel">Height (cm)</div>
-        <div class="inp-wrap kpad-active" id="iw-h" onclick="setActiveField(&#39;sol-h&#39;)" style="cursor:pointer">
+        <div class="inp-wrap" id="iw-h" onclick="setActiveField(&#39;sol-h&#39;)" style="cursor:pointer">
           <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="sol-h" placeholder="cm" oninput="solverHint()">
           <span class="inp-sfx">cm</span>
         </div>
@@ -758,48 +756,48 @@ html, body {
       </div>
       <div class="field">
         <div class="flabel">BMI</div>
-        <div class="inp-wrap solve-target" id="iw-b" onclick="setActiveField(&#39;sol-b&#39;)" style="cursor:pointer">
+        <div class="inp-wrap" id="iw-b" onclick="setActiveField(&#39;sol-b&#39;)" style="cursor:pointer">
           <input type="text" inputmode="none" readonly="" size="1" autocomplete="one-time-code" autocorrect="off" autocapitalize="off" spellcheck="false" id="sol-b" placeholder="opt." oninput="solverHint()">
           <span class="inp-sfx">kg/m²</span>
         </div>
-        <div class="solve-tag" id="tag-b">← will solve</div>
+        <div class="solve-tag" id="tag-b"></div>
       </div>
     </div>
 
     <!-- ── RESULTS (shown after calculate) ── -->
-    <div class="" id="results-wrap">
+    <div class="hidden" id="results-wrap">
 
       <!-- 5-col results row: BMI | IBW | ABW | Energy | Protein -->
       <div class="results-row">
         <div class="rbox c-teal">
           <div class="rl">BMI</div>
-          <div class="rv" id="res-bmi">66.7</div>
+          <div class="rv" id="res-bmi">—</div>
           <div class="ru">kg/m²</div>
-          <div><span class="bmi-badge ob" id="res-bmi-badge">Obese</span></div>
+          <div><span class="bmi-badge" id="res-bmi-badge"></span></div>
         </div>
         <div class="rbox c-teal">
           <div class="rl">IBW</div>
-          <div class="rv" id="res-ibw">51.5</div>
+          <div class="rv" id="res-ibw">—</div>
           <div class="ru">kg</div>
-          <div class="rn" id="res-ibw-note">22.9×1.50²</div>
+          <div class="rn" id="res-ibw-note"></div>
         </div>
-        <div class="rbox c-gold" id="res-abw-box">
+        <div class="rbox c-grey" id="res-abw-box">
           <div class="rl">ABW</div>
-          <div class="rv" id="res-abw">76.1</div>
-          <div class="ru" id="res-abw-unit">kg</div>
-          <div class="rn" id="res-abw-note">0.25×(150.0−51.5)</div>
+          <div class="rv" id="res-abw">—</div>
+          <div class="ru" id="res-abw-unit"></div>
+          <div class="rn" id="res-abw-note"></div>
         </div>
         <div class="rbox c-red">
           <div class="rl">Energy</div>
-          <div class="rv" id="res-energy">1904</div>
+          <div class="rv" id="res-energy">—</div>
           <div class="ru">kcal/d</div>
-          <div class="rn" id="res-energy-note">25 × 76.1 (ABW)</div>
+          <div class="rn" id="res-energy-note"></div>
         </div>
         <div class="rbox c-blue">
           <div class="rl">Protein</div>
-          <div class="rv" id="res-prot">77.3</div>
+          <div class="rv" id="res-prot">—</div>
           <div class="ru">g/d</div>
-          <div class="rn" id="res-prot-note">1.5 × 51.5 (IBW)</div>
+          <div class="rn" id="res-prot-note"></div>
         </div>
       </div>
 
@@ -813,7 +811,7 @@ html, body {
       </div>
 
       <!-- Clinical note -->
-      <div class="cnote" id="res-note"><strong>⚖ Use ABW.</strong> BMI 66.7 ≥ 26. AW is 191% above IBW.</div>
+      <div class="cnote" id="res-note"></div>
       <div class="abbrev-line">AW = Actual Weight &nbsp;·&nbsp; IBW = Ideal Body Weight &nbsp;·&nbsp; ABW = Adjusted Body Weight</div>
 
     </div><!-- /results-wrap -->
@@ -834,7 +832,7 @@ html, body {
         <div class="chip-row" id="energy-chips">
           <button class="chip" data-bw="actual" onclick="setChip(&#39;energy&#39;,this)">AW</button>
           <button class="chip" data-bw="ideal" onclick="setChip(&#39;energy&#39;,this)">IBW</button>
-          <button class="chip active" data-bw="adjusted" onclick="setChip(&#39;energy&#39;,this)" id="chip-e-abw" title="">ABW</button>
+          <button class="chip active" data-bw="adjusted" onclick="setChip(&#39;energy&#39;,this)" id="chip-e-abw">ABW</button>
         </div>
       </div>
       <!-- Protein -->
@@ -848,8 +846,8 @@ html, body {
         </div>
         <div class="chip-row" id="prot-chips">
           <button class="chip" data-bw="actual" onclick="setChip(&#39;prot&#39;,this)">AW</button>
-          <button class="chip active" data-bw="ideal" onclick="setChip(&#39;prot&#39;,this)">IBW</button>
-          <button class="chip" data-bw="adjusted" onclick="setChip(&#39;prot&#39;,this)" id="chip-p-abw" title="">ABW</button>
+          <button class="chip" data-bw="ideal" onclick="setChip(&#39;prot&#39;,this)">IBW</button>
+          <button class="chip active" data-bw="adjusted" onclick="setChip(&#39;prot&#39;,this)" id="chip-p-abw">ABW</button>
         </div>
       </div>
     </div>
@@ -863,13 +861,13 @@ html, body {
       </div>
     </div>
 
-    <div class="err" id="main-err" style="display: none;">⚠ Enter Weight + Height (BMI optional — leave blank to solve it, or enter any two to solve the third).</div>
+    <div class="err" id="main-err">⚠ Enter Weight + Height (BMI optional — leave blank to solve it, or enter any two to solve the third).</div>
 
     <!-- ── Custom Keypad ── -->
     <div class="keypad" id="keypad">
       <div class="keypad-active-label">
-        <span id="keypad-field-label">Height (cm)</span>
-        <span class="keypad-val-preview" id="keypad-preview">150</span>
+        <span id="keypad-field-label">Tap a field above to enter</span>
+        <span class="keypad-val-preview" id="keypad-preview"></span>
       </div>
       <div class="keypad-grid" id="main-keypad-grid">
         <button class="kbtn" data-key="7">7</button>
